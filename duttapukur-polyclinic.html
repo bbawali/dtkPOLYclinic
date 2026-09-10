@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Duttapukur Polyclinic</title>
+<meta name="description" content="Duttapukur Polyclinic — Book your doctor consultation easily.">
+<meta name="theme-color" content="#0f6e64">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Duttapukur Polyclinic">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<link id="appleTouchIcon" rel="apple-touch-icon">
+<link id="manifestLink" rel="manifest">
+<style>
+:root{
+  --ink:#0d2b26;
+  --ink-soft:#4b6a64;
+  --teal:#0f6e64;
+  --teal-deep:#0a4b44;
+  --teal-soft:#e6f2f0;
+  --blue:#2f5fae;
+  --blue-soft:#eaf0fb;
+  --paper:#f7f9f8;
+  --card:#ffffff;
+  --line:#e4ebe9;
+  --amber:#b7791f;
+  --amber-soft:#fdf3e0;
+  --green:#1c7a4d;
+  --green-soft:#e5f5ec;
+  --red:#c0392b;
+  --red-soft:#fbe9e7;
+  --gray:#6b7674;
+  --gray-soft:#eef1f0;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  -webkit-tap-highlight-color:transparent;
+  overscroll-behavior-y:none;
+}
+.serif{font-family:'Newsreader',Georgia,serif;}
+::selection{background:var(--teal-soft);color:var(--teal-deep)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:#c9d6d3;border-radius:8px}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
+input,select,textarea{font-family:inherit}
+.focus-ring:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+button:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border-radius:12px;font-weight:700;font-size:.9rem;padding:.7rem 1.1rem;transition:transform .08s ease, background .15s ease, box-shadow .15s ease;cursor:pointer;border:none;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 6px 16px -6px rgba(15,110,100,.55)}
+.btn-primary:hover{background:var(--teal-deep)}
+.btn-primary:disabled{background:#9db8b3;box-shadow:none;cursor:not-allowed}
+.btn-outline{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+.btn-outline:hover{background:var(--teal-soft)}
+.btn-ghost{background:transparent;color:var(--ink-soft)}
+.btn-ghost:hover{background:var(--gray-soft)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{background:#a3291d}
+.btn-sm{padding:.4rem .75rem;font-size:.8rem;border-radius:9px}
+.btn-block{width:100%}
+
+.field-label{font-size:.78rem;font-weight:700;color:var(--ink-soft);margin-bottom:.3rem;display:block}
+.input{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:.68rem .85rem;font-size:.92rem;background:#fff;color:var(--ink);transition:border-color .12s}
+.input:focus{outline:none;border-color:var(--teal)}
+.input::placeholder{color:#9fb0ac}
+
+.badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:800;letter-spacing:.01em;padding:.28rem .62rem;border-radius:999px}
+.badge-pending{background:var(--amber-soft);color:var(--amber)}
+.badge-confirmed{background:var(--green-soft);color:var(--green)}
+.badge-rejected{background:var(--red-soft);color:var(--red)}
+.badge-cancelled{background:var(--gray-soft);color:var(--gray)}
+.badge-completed{background:var(--blue-soft);color:var(--blue)}
+.badge-deleted{background:var(--gray-soft);color:var(--gray)}
+.badge::before{content:'';width:6px;height:6px;border-radius:999px;background:currentColor;display:inline-block}
+
+.spinner{width:1.1em;height:1.1em;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .7s linear infinite;display:inline-block}
+.spinner-dark{border:2.5px solid var(--gray-soft);border-top-color:var(--teal)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.anim-in{animation:fadeUp .22s ease both}
+@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.modal-pop{animation:popIn .16s ease both}
+@media (prefers-reduced-motion: reduce){.anim-in,.modal-pop,.spinner{animation:none}}
+
+.skeleton{background:linear-gradient(90deg,#eef2f1 25%,#f7f9f8 37%,#eef2f1 63%);background-size:400% 100%;animation:sk 1.4s ease infinite;border-radius:10px}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:0 0}}
+
+.tab-btn{padding:.55rem 1rem;border-radius:10px;font-size:.85rem;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+.tab-btn.active{background:var(--teal);color:#fff}
+.chip{padding:.4rem .8rem;border-radius:999px;font-size:.8rem;font-weight:700;border:1.5px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.chip.active{background:var(--teal-soft);border-color:var(--teal);color:var(--teal-deep)}
+
+.slot-btn{padding:.6rem .5rem;border-radius:10px;border:1.5px solid var(--line);font-weight:700;font-size:.85rem;text-align:center;color:var(--ink)}
+.slot-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.slot-btn:disabled{color:#c3cdcb;border-color:var(--line);background:#f5f7f6;text-decoration:line-through;cursor:not-allowed}
+
+.date-pill{min-width:58px;padding:.55rem .3rem;border-radius:13px;border:1.5px solid var(--line);text-align:center}
+.date-pill.active{background:var(--teal-deep);border-color:var(--teal-deep);color:#fff}
+.date-pill.disabled{opacity:.35;pointer-events:none}
+
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;padding:.35rem .4rem calc(env(safe-area-inset-bottom) + .35rem);z-index:40}
+.bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.35rem 0;border-radius:10px;color:#93a29e;font-size:.66rem;font-weight:700}
+.bottom-nav a.active{color:var(--teal)}
+.bottom-nav a i{font-size:1.05rem}
+
+.sidebar{width:238px;flex-shrink:0;background:#fff;border-right:1px solid var(--line);height:100vh;position:sticky;top:0;display:flex;flex-direction:column}
+.side-link{display:flex;align-items:center;gap:.7rem;padding:.65rem .85rem;border-radius:11px;color:var(--ink-soft);font-weight:700;font-size:.86rem}
+.side-link.active{background:var(--teal-soft);color:var(--teal-deep)}
+.side-link:hover{background:var(--gray-soft)}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(13,43,38,.45);backdrop-filter:blur(1px);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+@media(min-width:640px){.modal-backdrop{align-items:center}}
+.modal-box{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;padding:1.3rem}
+@media(min-width:640px){.modal-box{border-radius:20px}}
+
+.toast{background:var(--ink);color:#fff;padding:.75rem 1.05rem;border-radius:12px;font-size:.85rem;font-weight:600;box-shadow:0 10px 30px -8px rgba(0,0,0,.35);display:flex;align-items:center;gap:.6rem;max-width:340px}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+
+table.data-table{width:100%;border-collapse:collapse;font-size:.86rem}
+table.data-table th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);padding:.6rem .8rem;border-bottom:1.5px solid var(--line);white-space:nowrap}
+table.data-table td{padding:.7rem .8rem;border-bottom:1px solid var(--line);vertical-align:middle}
+table.data-table tr:hover td{background:#fafcfb}
+
+.stat-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1rem 1.1rem}
+.avatar{border-radius:999px;object-fit:cover;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;color:var(--teal-deep);font-weight:800}
+
+#installFab{position:fixed;right:16px;bottom:16px;z-index:45}
+@media(min-width:900px){#installFab{bottom:20px;right:20px}}
+
+.scrollbar-none::-webkit-scrollbar{display:none}
+.scrollbar-none{-ms-overflow-style:none;scrollbar-width:none}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="min-h-screen flex items-center justify-center" style="background:var(--paper)">
+    <span class="spinner spinner-dark" style="width:2.2em;height:2.2em;border-width:3px"></span>
+  </div>
+</div>
+<div id="toastHost" class="fixed z-[200] top-4 left-1/2 -translate-x-1/2 flex flex-col gap-2 items-center w-full px-4 pointer-events-none"></div>
+<div id="modalHost"></div>
+
+<button id="installFab" class="hidden btn btn-primary" onclick="App.doInstall()">
+  <i class="fa-solid fa-arrow-down-to-line"></i> App Install করুন
+</button>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+<script>
+/* ============================================================
+   DUTTAPUKUR POLYCLINIC — single-file PWA
+   Firebase (compat SDK) + Firestore + Storage + Auth
+   ============================================================ */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCZcliehQnb0BM-hH1WrGBfpN6NoPFdir8",
+  authDomain: "duttapukur-polyclinic.firebaseapp.com",
+  projectId: "duttapukur-polyclinic",
+  storageBucket: "duttapukur-polyclinic.firebasestorage.app",
+  messagingSenderId: "705609180707",
+  appId: "1:705609180707:web:d272193117e64110e0b396"
+};
+
+firebase.initializeApp(firebaseConfig);
+// Secondary app instance: lets Admin create Doctor auth accounts
+// without Firebase Auth swapping the Admin's own active session.
+const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+db.settings({ ignoreUndefinedProperties: true });
+
+try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e) {}
+
+const FieldValue = firebase.firestore.FieldValue;
+
+/* ---------------- constants ---------------- */
+const DAYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+const DAY_LABEL_BN = {sunday:'রবিবার',monday:'সোমবার',tuesday:'মঙ্গলবার',wednesday:'বুধবার',thursday:'বৃহস্পতিবার',friday:'শুক্রবার',saturday:'শনিবার'};
+const DAY_LABEL_SHORT = {sunday:'Sun',monday:'Mon',tuesday:'Tue',wednesday:'Wed',thursday:'Thu',friday:'Fri',saturday:'Sat'};
+const STATUS_LABEL = {pending:'Pending',confirmed:'Confirmed',rejected:'Rejected',cancelled:'Cancelled',completed:'Completed',deleted:'Deleted'};
+const CLINIC_DEFAULT = {clinicName:'Duttapukur Polyclinic', phone:'', address:'Duttapukur, North 24 Parganas, West Bengal', email:'', openingInfo:'Open all days · Chamber timings vary by doctor'};
+
+/* ---------------- utils ---------------- */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const esc = (s) => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+function todayIST(){
+  return new Date().toLocaleDateString('en-CA', {timeZone:'Asia/Kolkata'}); // YYYY-MM-DD
+}
+function nowISTMinutes(){
+  const s = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false});
+  const [h,m] = s.split(':').map(Number);
+  return h*60+m;
+}
+function dateToDayKey(dateStr){
+  const d = new Date(dateStr + 'T12:00:00');
+  return DAYS[d.getDay()];
+}
+function addDaysStr(dateStr, n){
+  const d = new Date(dateStr + 'T12:00:00');
+  d.setDate(d.getDate()+n);
+  return d.toLocaleDateString('en-CA');
+}
+function formatDateDisplay(dateStr){
+  if(!dateStr) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'});
+}
+function formatDateShort(dateStr){
+  if(!dateStr) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-IN', {day:'numeric', month:'short'});
+}
+function formatTimeDisplay(t){
+  if(!t) return '';
+  let [h,m] = t.split(':').map(Number);
+  const ap = h>=12 ? 'PM':'AM';
+  h = h%12; if(h===0) h=12;
+  return `${h}:${String(m).padStart(2,'0')} ${ap}`;
+}
+function timeToMinutes(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
+function minutesToTime(mins){ const h=Math.floor(mins/60), m=mins%60; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`; }
+function fmtMoney(n){ n = Number(n||0); return '₹' + n.toLocaleString('en-IN'); }
+function timeAgo(ts){
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const diff = Math.floor((Date.now()-d.getTime())/1000);
+  if(diff<60) return 'just now';
+  if(diff<3600) return Math.floor(diff/60)+'m ago';
+  if(diff<86400) return Math.floor(diff/3600)+'h ago';
+  if(diff<604800) return Math.floor(diff/86400)+'d ago';
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+function initials(name){
+  if(!name) return '?';
+  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+function generateSlots(startTime, endTime, duration){
+  const out = [];
+  let m = timeToMinutes(startTime), end = timeToMinutes(endTime);
+  duration = Number(duration) || 15;
+  while(m + duration <= end){ out.push(minutesToTime(m)); m += duration; }
+  return out;
+}
+function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+
+/* ---------------- toast ---------------- */
+function toast(msg, type='default', ms=3200){
+  const host = $('#toastHost');
+  const el = document.createElement('div');
+  el.className = `toast ${type} anim-in pointer-events-auto`;
+  const icon = type==='success' ? 'fa-circle-check' : type==='error' ? 'fa-circle-exclamation' : 'fa-circle-info';
+  el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${esc(msg)}</span>`;
+  host.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .25s, transform .25s'; el.style.opacity='0'; el.style.transform='translateY(-8px)'; setTimeout(()=>el.remove(), 250); }, ms);
+}
+
+/* ---------------- modal ---------------- */
+function closeModal(){ $('#modalHost').innerHTML=''; document.body.style.overflow=''; }
+function openModal(innerHtml, opts={}){
+  document.body.style.overflow='hidden';
+  $('#modalHost').innerHTML = `
+    <div class="modal-backdrop" onclick="if(event.target===this && ${opts.dismissible!==false}) closeModal()">
+      <div class="modal-box modal-pop" onclick="event.stopPropagation()">${innerHtml}</div>
+    </div>`;
+}
+function confirmDialog({icon='fa-circle-question', title, body, confirmText='Confirm', cancelText='Cancel', danger=false, onConfirm}){
+  const btnCls = danger ? 'btn-danger' : 'btn-primary';
+  window.__confirmCb = onConfirm;
+  openModal(`
+    <div class="text-center px-1 py-2">
+      <div class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center ${danger?'bg-[var(--red-soft)] text-[var(--red)]':'bg-[var(--teal-soft)] text-[var(--teal)]'}">
+        <i class="fa-solid ${icon} text-xl"></i>
+      </div>
+      <h3 class="font-extrabold text-lg mb-1">${esc(title)}</h3>
+      <div class="text-sm text-[var(--ink-soft)] leading-relaxed mb-5">${body}</div>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost btn-block" onclick="closeModal()">${esc(cancelText)}</button>
+        <button class="btn ${btnCls} btn-block" onclick="window.__confirmCb && window.__confirmCb(); closeModal();">${esc(confirmText)}</button>
+      </div>
+    </div>`);
+}
+function loadingOverlay(msg){
+  openModal(`<div class="text-center py-6"><span class="spinner spinner-dark" style="width:2em;height:2em;border-width:3px"></span>
+    <div class="mt-3 text-sm font-bold text-[var(--ink-soft)]">${esc(msg||'Please wait...')}</div></div>`, {dismissible:false});
+}
+
+/* ---------------- status badge ---------------- */
+function statusBadge(status){
+  const label = STATUS_LABEL[status] || status;
+  return `<span class="badge badge-${status}">${esc(label)}</span>`;
+}
+function emptyState(icon, title, sub){
+  return `<div class="text-center py-14 px-6">
+    <div class="w-16 h-16 rounded-2xl bg-[var(--gray-soft)] text-[var(--gray)] flex items-center justify-center mx-auto mb-3"><i class="fa-solid ${icon} text-2xl"></i></div>
+    <div class="font-extrabold text-[var(--ink)]">${esc(title)}</div>
+    ${sub? `<div class="text-sm text-[var(--ink-soft)] mt-1">${esc(sub)}</div>`:''}
+  </div>`;
+}
+function skeletonRows(n=3){
+  return Array.from({length:n}).map(()=>`<div class="skeleton h-20 rounded-2xl mb-3"></div>`).join('');
+}
+/* ---------------- global state ---------------- */
+const St = {
+  user: null,          // firebase auth user
+  role: null,           // 'user' | 'doctor' | 'admin'
+  profile: null,        // users/{uid} doc
+  doctor: null,         // doctors/{uid} doc (if role doctor)
+  view: 'boot',
+  viewParams: {},
+  unsubs: [],           // active firestore listeners for current view
+  cache: {},            // scratch cache keyed by id, for onclick lookups
+  clinicSettings: CLINIC_DEFAULT,
+  confirmWindow: null,  // recaptcha confirmation result
+};
+function clearListeners(){ St.unsubs.forEach(u=>{ try{u();}catch(e){} }); St.unsubs = []; }
+function track(unsub){ St.unsubs.push(unsub); return unsub; }
+
+/* ============================================================
+   PWA: manifest + service worker + install prompt — all inline,
+   no separate files, so the whole app ships as one HTML file.
+   ============================================================ */
+const APP_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#0f6e64"/><path d="M256 120c-16 0-28 13-28 29v79h-79c-16 0-29 12-29 28s13 29 29 29h79v79c0 16 12 28 28 28s28-12 28-28v-79h79c16 0 29-13 29-29s-13-28-29-28h-79v-79c0-16-12-29-28-29z" fill="#fff"/></svg>`;
+function svgToDataUri(svg){ return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg))); }
+(function setupPWAChrome(){
+  const iconUri = svgToDataUri(APP_ICON_SVG);
+  $('#appleTouchIcon').setAttribute('href', iconUri);
+  const manifest = {
+    name: "Duttapukur Polyclinic",
+    short_name: "Duttapukur Polyclinic",
+    description: "Book your doctor consultation at Duttapukur Polyclinic — patients, doctors and clinic staff, all in one app.",
+    start_url: ".",
+    scope: ".",
+    display: "standalone",
+    background_color: "#f7f9f8",
+    theme_color: "#0f6e64",
+    orientation: "portrait-primary",
+    icons: [
+      {src: iconUri, sizes: "192x192", type: "image/svg+xml", purpose: "any"},
+      {src: iconUri, sizes: "512x512", type: "image/svg+xml", purpose: "any"},
+      {src: iconUri, sizes: "512x512", type: "image/svg+xml", purpose: "maskable"}
+    ]
+  };
+  const manifestBlob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  $('#manifestLink').setAttribute('href', URL.createObjectURL(manifestBlob));
+
+  // Inline service worker (registered from a Blob URL) — caches the app shell
+  // (this single HTML document) for offline loading. Firestore/Auth network
+  // calls are left untouched so booking/data operations always need a live
+  // connection, per the app's data-consistency requirements.
+  const swSource = `
+    const CACHE = 'dp-clinic-v1';
+    self.addEventListener('install', e => { self.skipWaiting(); });
+    self.addEventListener('activate', e => { self.clients.claim(); });
+    self.addEventListener('fetch', e => {
+      if (e.request.method !== 'GET') return;
+      const url = e.request.url;
+      if (url.includes('firestore.googleapis.com') || url.includes('identitytoolkit') ||
+          url.includes('googleapis.com') || url.includes('firebaseapp.com')) return;
+      e.respondWith(
+        caches.match(e.request).then(cached => {
+          const fetchPromise = fetch(e.request).then(res => {
+            if (res && res.ok) { caches.open(CACHE).then(c => c.put(e.request, res.clone())); }
+            return res;
+          }).catch(()=> cached);
+          return cached || fetchPromise;
+        })
+      );
+    });
+  `;
+  if('serviceWorker' in navigator){
+    try{
+      const swBlob = new Blob([swSource], {type:'application/javascript'});
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(()=>{});
+    }catch(e){}
+  }
+})();
+
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if(!window.matchMedia('(display-mode: standalone)').matches){ $('#installFab').classList.remove('hidden'); }
+});
+window.addEventListener('appinstalled', ()=>{ $('#installFab').classList.add('hidden'); deferredInstallPrompt=null; toast('App installed','success'); });
+
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+if(isIOS && !isStandalone){
+  document.addEventListener('DOMContentLoaded', ()=> $('#installFab').classList.remove('hidden'));
+}
+
+const App = {}; // main namespace, populated below
+
+App.doInstall = async function(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const choice = await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    if(choice.outcome !== 'accepted'){ /* user dismissed */ }
+    $('#installFab').classList.add('hidden');
+    return;
+  }
+  if(isIOS){
+    openModal(`
+      <div class="px-1 py-2">
+        <h3 class="font-extrabold text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-mobile-screen-button text-[var(--teal)]"></i> Install App (iPhone)</h3>
+        <ol class="text-sm space-y-3 text-[var(--ink)]">
+          <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center font-extrabold shrink-0 text-xs">1</span>নিচের <i class="fa-solid fa-arrow-up-from-bracket mx-1"></i> Share বাটনে ট্যাপ করুন</li>
+          <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center font-extrabold shrink-0 text-xs">2</span>"Add to Home Screen" সিলেক্ট করুন</li>
+          <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center font-extrabold shrink-0 text-xs">3</span>"Add" ট্যাপ করুন</li>
+        </ol>
+        <button class="btn btn-primary btn-block mt-5" onclick="closeModal()">বুঝেছি</button>
+      </div>`);
+    return;
+  }
+  toast('Install prompt is not available on this browser right now.');
+};
+/* ============================================================
+   AUTH
+   ============================================================ */
+let adminBootstrapAvailable = false;
+
+async function checkAdminBootstrap(){
+  try{
+    const snap = await db.collection('system').doc('setup').get();
+    adminBootstrapAvailable = !snap.exists || !snap.data().adminCreated;
+  }catch(e){ adminBootstrapAvailable = false; }
+}
+
+auth.onAuthStateChanged(async (user)=>{
+  clearListeners();
+  if(!user){
+    St.user = null; St.role = null; St.profile = null; St.doctor = null;
+    await checkAdminBootstrap();
+    renderRoot();
+    return;
+  }
+  St.user = user;
+  try{
+    const udoc = await db.collection('users').doc(user.uid).get();
+    if(!udoc.exists){
+      // Signed into Firebase Auth but no Firestore profile yet.
+      if(user.phoneNumber){ renderCompletePatientProfile(user); return; }
+      // Staff user with no role doc — treat as an error state and sign out.
+      await auth.signOut();
+      toast('No profile found for this account. Contact the clinic admin.', 'error');
+      return;
+    }
+    St.profile = udoc.data();
+    St.role = St.profile.role;
+    if(St.role === 'doctor'){
+      const ddoc = await db.collection('doctors').doc(user.uid).get();
+      St.doctor = ddoc.exists ? {id:ddoc.id, ...ddoc.data()} : null;
+      if(St.doctor && St.doctor.isActive === false){
+        await auth.signOut();
+        toast('Your account has been deactivated. Contact the clinic admin.', 'error');
+        return;
+      }
+    }
+    await loadClinicSettings();
+    if(St.role === 'admin') navigate('admin-dashboard');
+    else if(St.role === 'doctor') navigate('doctor-dashboard');
+    else navigate('user-home');
+  }catch(err){
+    console.error(err);
+    renderRoot();
+  }
+});
+
+async function loadClinicSettings(){
+  try{
+    const s = await db.collection('clinicSettings').doc('main').get();
+    St.clinicSettings = s.exists ? {...CLINIC_DEFAULT, ...s.data()} : CLINIC_DEFAULT;
+  }catch(e){ St.clinicSettings = CLINIC_DEFAULT; }
+}
+
+App.logout = function(){
+  confirmDialog({
+    icon:'fa-right-from-bracket', title:'লগ-আউট করবেন?',
+    body:'আপনাকে আবার লগইন করতে হবে।', confirmText:'Log out', danger:true,
+    onConfirm: async ()=>{ await auth.signOut(); }
+  });
+};
+
+/* ---------- Landing / role select ---------- */
+function renderRoot(){
+  St.view = 'auth-landing';
+  const app = $('#app');
+  app.innerHTML = `
+  <div class="min-h-screen flex flex-col" style="background:linear-gradient(180deg,#0a4b44 0%, #0f6e64 38%, #f7f9f8 38%)">
+    <div class="px-6 pt-14 pb-8 text-center text-white">
+      <div class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center mx-auto mb-4 border border-white/20">
+        <i class="fa-solid fa-staff-snake text-2xl"></i>
+      </div>
+      <h1 class="serif text-[1.7rem] leading-tight font-semibold">Duttapukur<br/>Polyclinic</h1>
+      <p class="text-sm text-white/80 mt-2 max-w-xs mx-auto">Find your doctor, choose an available time, and request an appointment — easily.</p>
+    </div>
+    <div class="flex-1 px-5 pb-10 -mt-1">
+      <div class="max-w-sm mx-auto space-y-3 anim-in">
+        <button class="card w-full p-4 flex items-center gap-4 text-left shadow-sm" onclick="renderPatientAuth()">
+          <div class="w-11 h-11 rounded-xl bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center text-lg"><i class="fa-solid fa-user"></i></div>
+          <div class="flex-1">
+            <div class="font-extrabold">Patient</div>
+            <div class="text-xs text-[var(--ink-soft)]">Book an appointment with your mobile number</div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-[var(--ink-soft)]"></i>
+        </button>
+        <button class="card w-full p-4 flex items-center gap-4 text-left shadow-sm" onclick="renderStaffAuth()">
+          <div class="w-11 h-11 rounded-xl bg-[var(--blue-soft)] text-[var(--blue)] flex items-center justify-center text-lg"><i class="fa-solid fa-user-doctor"></i></div>
+          <div class="flex-1">
+            <div class="font-extrabold">Doctor / Admin</div>
+            <div class="text-xs text-[var(--ink-soft)]">Staff login with email &amp; password</div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-[var(--ink-soft)]"></i>
+        </button>
+      </div>
+      <div class="text-center mt-8 text-xs text-[var(--ink-soft)]">
+        Duttapukur, North 24 Parganas, West Bengal
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- Patient (phone OTP) auth ---------- */
+function renderPatientAuth(){
+  St.view = 'auth-patient';
+  if(window.__recaptchaVerifier){ try{ window.__recaptchaVerifier.clear(); }catch(e){} window.__recaptchaVerifier = null; }
+  const app = $('#app');
+  app.innerHTML = `
+  <div class="min-h-screen flex flex-col px-6 py-8">
+    <button class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--gray-soft)]" onclick="renderRoot()"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="max-w-sm w-full mx-auto mt-6 anim-in flex-1">
+      <h2 class="text-xl font-extrabold mb-1">Patient Login</h2>
+      <p class="text-sm text-[var(--ink-soft)] mb-6">আপনার মোবাইল নম্বর দিন। প্রথমবার হলে নাম জিজ্ঞাসা করা হবে।</p>
+      <div id="phoneStep">
+        <label class="field-label">Mobile Number</label>
+        <div class="flex gap-2">
+          <div class="input w-20 text-center font-bold select-none">+91</div>
+          <input id="phoneInput" class="input flex-1" placeholder="98XXXXXXXX" inputmode="numeric" maxlength="10">
+        </div>
+        <button class="btn btn-primary btn-block mt-5" id="sendOtpBtn" onclick="App.sendOtp()">Send OTP</button>
+        <div id="recaptcha-container" class="mt-3"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+App.sendOtp = async function(){
+  const raw = $('#phoneInput').value.trim();
+  if(!/^[6-9]\d{9}$/.test(raw)){ toast('Enter a valid 10-digit mobile number', 'error'); return; }
+  const phone = '+91' + raw;
+  const btn = $('#sendOtpBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Sending...';
+  try{
+    if(!window.__recaptchaVerifier){
+      window.__recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {size:'invisible'});
+    }
+    const result = await auth.signInWithPhoneNumber(phone, window.__recaptchaVerifier);
+    St.confirmWindow = result;
+    renderOtpStep(phone);
+  }catch(err){
+    console.error(err);
+    toast(err.message || 'Could not send OTP. Please try again.', 'error');
+    btn.disabled = false; btn.innerHTML = 'Send OTP';
+    try{ window.__recaptchaVerifier && window.__recaptchaVerifier.render().then(id=>grecaptcha && grecaptcha.reset(id)); }catch(e){}
+  }
+};
+
+function renderOtpStep(phone){
+  $('#phoneStep').outerHTML = `
+    <div id="phoneStep" class="anim-in">
+      <label class="field-label">OTP sent to ${esc(phone)}</label>
+      <input id="otpInput" class="input text-center tracking-[0.5em] font-extrabold text-lg" placeholder="······" inputmode="numeric" maxlength="6">
+      <button class="btn btn-primary btn-block mt-5" id="verifyOtpBtn" onclick="App.verifyOtp()">Verify &amp; Continue</button>
+      <button class="btn btn-ghost btn-block mt-1" onclick="renderPatientAuth()">Change number</button>
+    </div>`;
+  $('#otpInput').focus();
+}
+
+App.verifyOtp = async function(){
+  const code = $('#otpInput').value.trim();
+  if(code.length < 4){ toast('Enter the OTP you received', 'error'); return; }
+  const btn = $('#verifyOtpBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Verifying...';
+  try{
+    await St.confirmWindow.confirm(code);
+    // onAuthStateChanged takes over from here
+  }catch(err){
+    console.error(err);
+    toast('Incorrect OTP. Please try again.', 'error');
+    btn.disabled = false; btn.innerHTML = 'Verify &amp; Continue';
+  }
+};
+
+function renderCompletePatientProfile(user){
+  St.view = 'auth-complete-profile';
+  $('#app').innerHTML = `
+  <div class="min-h-screen flex flex-col px-6 py-8">
+    <div class="max-w-sm w-full mx-auto mt-10 anim-in">
+      <div class="w-14 h-14 rounded-2xl bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center mb-4"><i class="fa-solid fa-user-pen text-xl"></i></div>
+      <h2 class="text-xl font-extrabold mb-1">আপনার নাম দিন</h2>
+      <p class="text-sm text-[var(--ink-soft)] mb-6">${esc(user.phoneNumber)} নম্বরে আপনার অ্যাকাউন্ট তৈরি হচ্ছে।</p>
+      <label class="field-label">Full Name</label>
+      <input id="newUserName" class="input" placeholder="আপনার পুরো নাম">
+      <button class="btn btn-primary btn-block mt-5" onclick="App.completePatientProfile()">Continue</button>
+    </div>
+  </div>`;
+}
+App.completePatientProfile = async function(){
+  const name = $('#newUserName').value.trim();
+  if(!name){ toast('Please enter your name', 'error'); return; }
+  loadingOverlay('Creating your profile...');
+  try{
+    await db.collection('users').doc(St.user.uid).set({
+      role:'user', name, phone: St.user.phoneNumber,
+      createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+    });
+    closeModal();
+    St.profile = {role:'user', name, phone:St.user.phoneNumber};
+    St.role = 'user';
+    await loadClinicSettings();
+    navigate('user-home');
+  }catch(err){ closeModal(); console.error(err); toast('Something went wrong. Please try again.', 'error'); }
+};
+
+/* ---------- Staff (doctor/admin) email+password auth ---------- */
+function renderStaffAuth(){
+  St.view = 'auth-staff';
+  $('#app').innerHTML = `
+  <div class="min-h-screen flex flex-col px-6 py-8">
+    <button class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--gray-soft)]" onclick="renderRoot()"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="max-w-sm w-full mx-auto mt-6 anim-in flex-1">
+      <h2 class="text-xl font-extrabold mb-1">Doctor / Admin Login</h2>
+      <p class="text-sm text-[var(--ink-soft)] mb-6">Staff credentials, created by the clinic admin.</p>
+      <label class="field-label">Email</label>
+      <input id="staffEmail" class="input" placeholder="you@example.com" type="email" autocomplete="username">
+      <label class="field-label mt-4">Password</label>
+      <input id="staffPassword" class="input" placeholder="••••••••" type="password" autocomplete="current-password">
+      <button class="btn btn-primary btn-block mt-5" id="staffLoginBtn" onclick="App.staffLogin()">Log in</button>
+      ${adminBootstrapAvailable ? `
+      <button class="btn btn-ghost btn-block mt-4 text-xs" onclick="renderFirstAdminSetup()">
+        <i class="fa-solid fa-circle-plus"></i> First time setup — create the Admin account
+      </button>` : ''}
+    </div>
+  </div>`;
+}
+
+App.staffLogin = async function(){
+  const email = $('#staffEmail').value.trim();
+  const pass = $('#staffPassword').value;
+  if(!email || !pass){ toast('Enter email and password', 'error'); return; }
+  const btn = $('#staffLoginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Logging in...';
+  try{
+    await auth.signInWithEmailAndPassword(email, pass);
+  }catch(err){
+    console.error(err);
+    toast('Login failed. Check your email and password.', 'error');
+    btn.disabled = false; btn.innerHTML = 'Log in';
+  }
+};
+
+function renderFirstAdminSetup(){
+  St.view = 'auth-admin-setup';
+  $('#app').innerHTML = `
+  <div class="min-h-screen flex flex-col px-6 py-8">
+    <button class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--gray-soft)]" onclick="renderStaffAuth()"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="max-w-sm w-full mx-auto mt-6 anim-in flex-1">
+      <div class="w-14 h-14 rounded-2xl bg-[var(--amber-soft)] text-[var(--amber)] flex items-center justify-center mb-4"><i class="fa-solid fa-key text-xl"></i></div>
+      <h2 class="text-xl font-extrabold mb-1">Create Admin Account</h2>
+      <p class="text-sm text-[var(--ink-soft)] mb-6">This one-time setup screen creates the first clinic Admin. It disappears once an admin exists.</p>
+      <label class="field-label">Admin Name</label>
+      <input id="setupName" class="input" placeholder="Full name">
+      <label class="field-label mt-4">Email</label>
+      <input id="setupEmail" class="input" type="email" placeholder="admin@example.com">
+      <label class="field-label mt-4">Password</label>
+      <input id="setupPassword" class="input" type="password" placeholder="Minimum 6 characters">
+      <button class="btn btn-primary btn-block mt-5" id="setupBtn" onclick="App.createFirstAdmin()">Create Admin Account</button>
+    </div>
+  </div>`;
+}
+App.createFirstAdmin = async function(){
+  const name = $('#setupName').value.trim();
+  const email = $('#setupEmail').value.trim();
+  const pass = $('#setupPassword').value;
+  if(!name || !email || pass.length < 6){ toast('Fill all fields (password min 6 characters)', 'error'); return; }
+  const btn = $('#setupBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating...';
+  try{
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await db.collection('users').doc(cred.user.uid).set({
+      role:'admin', name, email, createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+    });
+    await db.collection('system').doc('setup').set({adminCreated:true, createdAt: FieldValue.serverTimestamp()});
+    // onAuthStateChanged will route to the admin dashboard.
+  }catch(err){
+    console.error(err);
+    toast(err.message || 'Could not create admin account.', 'error');
+    btn.disabled = false; btn.innerHTML = 'Create Admin Account';
+  }
+};
+/* ============================================================
+   ROUTER + SHELL LAYOUT
+   ============================================================ */
+const NAV = {
+  user: {
+    primary: [
+      {v:'user-home', icon:'fa-house', label:'Home'},
+      {v:'user-doctors', icon:'fa-user-doctor', label:'Doctors'},
+      {v:'user-appointments', icon:'fa-calendar-check', label:'Appts'},
+      {v:'user-profile', icon:'fa-user', label:'Profile'},
+    ], more: []
+  },
+  doctor: {
+    primary: [
+      {v:'doctor-dashboard', icon:'fa-gauge', label:'Dashboard'},
+      {v:'doctor-appointments', icon:'fa-calendar-check', label:'Appts'},
+      {v:'doctor-availability', icon:'fa-clock', label:'Availability'},
+      {v:'doctor-finance', icon:'fa-sack-dollar', label:'Finance'},
+    ],
+    more: [
+      {v:'doctor-fee', icon:'fa-indian-rupee-sign', label:'Consultation Fee'},
+      {v:'doctor-messages', icon:'fa-comments', label:'Messages'},
+      {v:'doctor-profile', icon:'fa-user-gear', label:'Profile &amp; Account'},
+    ]
+  },
+  admin: {
+    primary: [
+      {v:'admin-dashboard', icon:'fa-gauge', label:'Dashboard'},
+      {v:'admin-appointments', icon:'fa-calendar-check', label:'Appts'},
+      {v:'admin-doctors', icon:'fa-user-doctor', label:'Doctors'},
+      {v:'admin-finance', icon:'fa-chart-line', label:'Finance'},
+    ],
+    more: [
+      {v:'admin-patients', icon:'fa-users', label:'Patients'},
+      {v:'admin-messages', icon:'fa-comments', label:'Doctor Messages'},
+      {v:'admin-settings', icon:'fa-gear', label:'Settings'},
+    ]
+  }
+};
+
+const VIEW_RENDERERS = {};
+function navigate(view, params={}){
+  clearListeners();
+  St.view = view; St.viewParams = params;
+  window.scrollTo(0,0);
+  const fn = VIEW_RENDERERS[view];
+  if(fn) fn(params);
+  else $('#app').innerHTML = emptyState('fa-triangle-exclamation', 'Page not found');
+}
+
+function sidebarHtml(role, active){
+  const items = NAV[role].primary.concat(NAV[role].more);
+  const brand = role==='admin' ? 'Admin Panel' : 'Doctor Panel';
+  return `
+  <aside class="sidebar hidden lg:flex">
+    <div class="px-5 py-5 flex items-center gap-3 border-b border-[var(--line)]">
+      <div class="w-9 h-9 rounded-xl bg-[var(--teal)] text-white flex items-center justify-center"><i class="fa-solid fa-staff-snake"></i></div>
+      <div>
+        <div class="font-extrabold text-sm leading-tight">Duttapukur<br/>Polyclinic</div>
+        <div class="text-[11px] text-[var(--ink-soft)] font-bold uppercase tracking-wide">${brand}</div>
+      </div>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-1">
+      ${items.map(it => `<a href="javascript:void(0)" class="side-link ${active===it.v?'active':''}" onclick="navigate('${it.v}')"><i class="fa-solid ${it.icon} w-4"></i> ${it.label}</a>`).join('')}
+    </nav>
+    <div class="px-3 py-3 border-t border-[var(--line)]">
+      <a href="javascript:void(0)" class="side-link" onclick="App.logout()"><i class="fa-solid fa-right-from-bracket w-4"></i> Log out</a>
+    </div>
+  </aside>`;
+}
+
+function topbarHtml(title, opts={}){
+  return `
+  <div class="sticky top-0 z-30 bg-[var(--paper)]/90 backdrop-blur border-b border-[var(--line)] px-4 lg:px-7 py-3 flex items-center gap-3">
+    ${opts.back ? `<button class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--gray-soft)] shrink-0" onclick="${opts.back}"><i class="fa-solid fa-arrow-left"></i></button>` : ''}
+    <div class="flex-1 min-w-0">
+      <div class="font-extrabold text-lg truncate">${title}</div>
+      ${opts.sub ? `<div class="text-xs text-[var(--ink-soft)] truncate">${opts.sub}</div>` : ''}
+    </div>
+    ${opts.right || ''}
+  </div>`;
+}
+
+function bottomNavHtml(role, active){
+  const items = NAV[role].primary;
+  let html = `<nav class="bottom-nav lg:hidden">`;
+  items.forEach(it=>{
+    html += `<a href="javascript:void(0)" class="${active===it.v?'active':''}" onclick="navigate('${it.v}')"><i class="fa-solid ${it.icon}"></i>${it.label}</a>`;
+  });
+  if(NAV[role].more.length){
+    const moreActive = NAV[role].more.some(m=>m.v===active);
+    html += `<a href="javascript:void(0)" class="${moreActive?'active':''}" onclick="openMoreSheet('${role}')"><i class="fa-solid fa-ellipsis"></i>More</a>`;
+  }
+  html += `</nav>`;
+  return html;
+}
+function openMoreSheet(role){
+  const items = NAV[role].more;
+  openModal(`
+    <div class="px-1">
+      <h3 class="font-extrabold text-base mb-3">More</h3>
+      <div class="space-y-1">
+        ${items.map(it=>`<button class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--gray-soft)] text-left" onclick="closeModal();navigate('${it.v}')"><i class="fa-solid ${it.icon} w-5 text-[var(--teal)]"></i><span class="font-bold text-sm">${it.label}</span></button>`).join('')}
+        <button class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--red-soft)] text-left" onclick="closeModal();App.logout()"><i class="fa-solid fa-right-from-bracket w-5 text-[var(--red)]"></i><span class="font-bold text-sm text-[var(--red)]">Log out</span></button>
+      </div>
+    </div>`);
+}
+
+function shellUser(active, contentHtml, topbarOpts={}){
+  $('#app').innerHTML = `
+  <div class="min-h-screen pb-20">
+    ${topbarOpts.hide ? '' : topbarHtml(topbarOpts.title || 'Duttapukur Polyclinic', topbarOpts)}
+    <div class="px-4 py-4 max-w-2xl mx-auto">${contentHtml}</div>
+  </div>
+  ${bottomNavHtml('user', active)}`;
+}
+function shellStaff(role, active, title, contentHtml, topbarOpts={}){
+  $('#app').innerHTML = `
+  <div class="lg:flex min-h-screen">
+    ${sidebarHtml(role, active)}
+    <div class="flex-1 min-w-0 pb-20 lg:pb-0">
+      ${topbarHtml(title, topbarOpts)}
+      <div class="px-4 lg:px-7 py-5 max-w-6xl">${contentHtml}</div>
+    </div>
+  </div>
+  ${bottomNavHtml(role, active)}`;
+}
+/* ============================================================
+   DATA SERVICES — availability engine, booking, status changes
+   ============================================================ */
+const Data = {};
+
+function friendlyFireError(err){
+  console.error(err);
+  const code = err && err.code;
+  if(code === 'permission-denied') return 'You are not allowed to do that.';
+  if(code === 'failed-precondition' || (err && /index/i.test(err.message||''))) return 'The database is preparing an index for this query — please try again in a minute.';
+  if(code === 'unavailable') return 'Connection issue. Check your internet and try again.';
+  return 'Something went wrong. Please try again.';
+}
+
+// Priority: Special Date Override -> Weekly Schedule -> No Availability
+Data.getDayAvailability = async function(doctorId, dateStr){
+  const specialSnap = await db.collection('doctorSchedules').doc(doctorId).collection('specialDates').doc(dateStr).get();
+  if(specialSnap.exists){
+    const sp = specialSnap.data();
+    if(!sp.available) return {available:false, source:'special', note:sp.note||''};
+    return {available:true, source:'special', startTime:sp.startTime, endTime:sp.endTime, slotDuration: sp.slotDuration || 15, note: sp.note||''};
+  }
+  const schedSnap = await db.collection('doctorSchedules').doc(doctorId).get();
+  const weekly = schedSnap.exists ? (schedSnap.data().weeklySchedule||{}) : {};
+  const dayKey = dateToDayKey(dateStr);
+  const day = weekly[dayKey];
+  if(!day || !day.available) return {available:false, source:'weekly'};
+  return {available:true, source:'weekly', startTime:day.startTime, endTime:day.endTime, slotDuration: day.slotDuration || 15};
+};
+
+Data.getBookedTimes = async function(doctorId, dateStr){
+  const snap = await db.collection('appointments')
+    .where('doctorId','==',doctorId).where('appointmentDate','==',dateStr)
+    .where('status','in',['pending','confirmed']).get();
+  return new Set(snap.docs.map(d=>d.data().appointmentTime));
+};
+
+Data.getAvailableSlots = async function(doctorId, dateStr){
+  const day = await Data.getDayAvailability(doctorId, dateStr);
+  if(!day.available) return {day, slots:[]};
+  let slots = generateSlots(day.startTime, day.endTime, day.slotDuration);
+  if(dateStr === todayIST()){
+    const nowM = nowISTMinutes();
+    slots = slots.filter(s => timeToMinutes(s) > nowM);
+  }
+  const booked = await Data.getBookedTimes(doctorId, dateStr);
+  const withStatus = slots.map(s => ({time:s, taken: booked.has(s)}));
+  return {day, slots: withStatus};
+};
+
+Data.nextAvailableLabel = async function(doctorId){
+  for(let i=0;i<21;i++){
+    const d = addDaysStr(todayIST(), i);
+    const {slots} = await Data.getAvailableSlots(doctorId, d);
+    const free = slots.find(s=>!s.taken);
+    if(free) return {date:d, time:free.time};
+  }
+  return null;
+};
+
+// Atomic booking — prevents double booking via a deterministic slot-lock document.
+Data.bookAppointment = async function({doctorId, doctorName, doctorSpecialization, consultationFee, appointmentDate, appointmentTime, notes}){
+  const slotId = `${doctorId}_${appointmentDate}_${appointmentTime}`;
+  const slotRef = db.collection('appointmentSlots').doc(slotId);
+  const apptRef = db.collection('appointments').doc();
+  await db.runTransaction(async (tx)=>{
+    const slotDoc = await tx.get(slotRef);
+    if(slotDoc.exists) throw {code:'slot-taken'};
+    tx.set(slotRef, {appointmentId: apptRef.id, doctorId, appointmentDate, appointmentTime, createdAt: FieldValue.serverTimestamp()});
+    tx.set(apptRef, {
+      patientId: St.user.uid, patientName: St.profile.name, patientPhone: St.profile.phone,
+      doctorId, doctorName, doctorSpecialization: doctorSpecialization||'',
+      appointmentDate, appointmentTime, consultationFee: Number(consultationFee)||0,
+      status: 'pending', notes: notes||'',
+      requestedAt: FieldValue.serverTimestamp(), confirmedAt:null, rejectedAt:null, completedAt:null, cancelledAt:null, deletedAt:null,
+      isDeleted:false, createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+    });
+  });
+  return apptRef.id;
+};
+
+Data.releaseSlot = async function(doctorId, appointmentDate, appointmentTime){
+  const slotId = `${doctorId}_${appointmentDate}_${appointmentTime}`;
+  try{ await db.collection('appointmentSlots').doc(slotId).delete(); }catch(e){}
+};
+
+Data.setAppointmentStatus = async function(appt, status, extra={}){
+  const ref = db.collection('appointments').doc(appt.id);
+  const patch = {status, updatedAt: FieldValue.serverTimestamp(), ...extra};
+  if(status==='confirmed') patch.confirmedAt = FieldValue.serverTimestamp();
+  if(status==='rejected') patch.rejectedAt = FieldValue.serverTimestamp();
+  if(status==='cancelled') patch.cancelledAt = FieldValue.serverTimestamp();
+  if(status==='completed') patch.completedAt = FieldValue.serverTimestamp();
+  await ref.update(patch);
+  if(['rejected','cancelled'].includes(status)){
+    await Data.releaseSlot(appt.doctorId, appt.appointmentDate, appt.appointmentTime);
+  }
+};
+
+Data.softDeleteAppointment = async function(appt){
+  await db.collection('appointments').doc(appt.id).update({
+    isDeleted:true, status:'deleted', deletedAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+  });
+  await Data.releaseSlot(appt.doctorId, appt.appointmentDate, appt.appointmentTime);
+};
+
+// Revenue: CONFIRMED => expected revenue, COMPLETED => earned revenue (Section 20/59 rule)
+function splitRevenue(appts){
+  let earned=0, expected=0, completedCount=0, confirmedCount=0;
+  appts.forEach(a=>{
+    if(a.status==='completed'){ earned += Number(a.consultationFee)||0; completedCount++; }
+    else if(a.status==='confirmed'){ expected += Number(a.consultationFee)||0; confirmedCount++; }
+  });
+  return {earned, expected, total: earned+expected, completedCount, confirmedCount};
+}
+function inRange(dateStr, from, to){ return dateStr >= from && dateStr <= to; }
+function weekBounds(dateStr){
+  const d = new Date(dateStr+'T12:00:00');
+  const dow = d.getDay(); // 0=Sun
+  const start = addDaysStr(dateStr, -dow);
+  const end = addDaysStr(start, 6);
+  return [start,end];
+}
+function monthBounds(dateStr){
+  const [y,m] = dateStr.split('-').map(Number);
+  const start = `${y}-${String(m).padStart(2,'0')}-01`;
+  const lastDay = new Date(y, m, 0).getDate();
+  const end = `${y}-${String(m).padStart(2,'0')}-${String(lastDay).padStart(2,'0')}`;
+  return [start,end];
+}
+/* ============================================================
+   USER / PATIENT PANEL
+   ============================================================ */
+VIEW_RENDERERS['user-home'] = function(){
+  shellUser('user-home', `
+    <div class="anim-in">
+      <div class="card p-5 mb-4" style="background:linear-gradient(135deg,var(--teal-deep),var(--teal));color:#fff;border:none">
+        <div class="text-sm text-white/80">Welcome,</div>
+        <div class="text-xl font-extrabold mb-4">${esc(St.profile.name)}</div>
+        <button class="btn btn-block" style="background:#fff;color:var(--teal-deep)" onclick="navigate('user-doctors')">
+          <i class="fa-solid fa-calendar-plus"></i> Book an Appointment
+        </button>
+      </div>
+      <div id="upcomingWrap" class="mb-5">${skeletonRows(1)}</div>
+      <div class="grid grid-cols-3 gap-2 mb-6">
+        <button class="card p-3 text-center" onclick="navigate('user-doctors')"><i class="fa-solid fa-user-doctor text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">Doctors</div></button>
+        <button class="card p-3 text-center" onclick="navigate('user-appointments')"><i class="fa-solid fa-calendar-days text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">My Appointments</div></button>
+        <button class="card p-3 text-center" onclick="navigate('user-profile')"><i class="fa-solid fa-user text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">Profile</div></button>
+      </div>
+      <div class="font-extrabold mb-2 text-sm text-[var(--ink-soft)] uppercase tracking-wide">Available Doctors</div>
+      <div id="homeDoctorsWrap">${skeletonRows(2)}</div>
+    </div>
+  `, {title:'Duttapukur Polyclinic'});
+
+  track(db.collection('appointments').where('patientId','==',St.user.uid).orderBy('createdAt','desc').limit(30)
+    .onSnapshot(snap=>{
+      const list = snap.docs.map(d=>({id:d.id, ...d.data()})).filter(a=>!a.isDeleted);
+      const upcoming = list.filter(a=>['pending','confirmed'].includes(a.status)).sort((a,b)=> (a.appointmentDate+a.appointmentTime).localeCompare(b.appointmentDate+b.appointmentTime))[0];
+      const wrap = $('#upcomingWrap');
+      if(!wrap) return;
+      if(!upcoming){ wrap.innerHTML = ''; return; }
+      wrap.innerHTML = `
+        <div class="text-xs font-bold text-[var(--ink-soft)] uppercase tracking-wide mb-2">Upcoming Appointment</div>
+        <div class="card p-4 flex items-center gap-3 cursor-pointer" onclick="openAppointmentDetail('${upcoming.id}')">
+          <div class="avatar w-11 h-11 shrink-0">${initials(upcoming.doctorName)}</div>
+          <div class="flex-1 min-w-0">
+            <div class="font-extrabold truncate">${esc(upcoming.doctorName)}</div>
+            <div class="text-xs text-[var(--ink-soft)]">${formatDateDisplay(upcoming.appointmentDate)} · ${formatTimeDisplay(upcoming.appointmentTime)}</div>
+          </div>
+          ${statusBadge(upcoming.status)}
+        </div>`;
+      St.cache[upcoming.id] = upcoming;
+    }, err=> toast(friendlyFireError(err),'error')));
+
+  track(db.collection('doctors').where('isActive','==',true).limit(6).onSnapshot(snap=>{
+    const wrap = $('#homeDoctorsWrap');
+    if(!wrap) return;
+    if(snap.empty){ wrap.innerHTML = emptyState('fa-user-doctor','No doctors listed yet'); return; }
+    wrap.innerHTML = snap.docs.map(d=>doctorCardHtml({id:d.id,...d.data()})).join('');
+    snap.docs.forEach(d=> fillNextAvailable(d.id));
+  }, err=> toast(friendlyFireError(err),'error')));
+};
+
+function doctorCardHtml(doc){
+  const img = doc.imageUrl ? `<img src="${esc(doc.imageUrl)}" class="w-14 h-14 rounded-2xl object-cover shrink-0" onerror="this.remove()">` : `<div class="avatar w-14 h-14 rounded-2xl shrink-0 text-lg">${initials(doc.name)}</div>`;
+  return `
+  <div class="card p-4 flex items-center gap-3 mb-3 cursor-pointer" onclick="navigate('user-doctor-profile',{doctorId:'${doc.id}'})">
+    ${img}
+    <div class="flex-1 min-w-0">
+      <div class="font-extrabold truncate">Dr. ${esc(doc.name)}</div>
+      <div class="text-xs text-[var(--ink-soft)] truncate">${esc(doc.degree||'')} ${doc.specialization? '· '+esc(doc.specialization):''}</div>
+      <div class="text-xs font-bold text-[var(--teal-deep)] mt-1" id="nextAvail_${doc.id}"><span class="skeleton inline-block h-3 w-24 align-middle"></span></div>
+    </div>
+    <div class="text-right shrink-0">
+      <div class="text-sm font-extrabold">${fmtMoney(doc.consultationFee)}</div>
+      <div class="text-[10px] text-[var(--ink-soft)]">fee</div>
+    </div>
+  </div>`;
+}
+async function fillNextAvailable(doctorId){
+  try{
+    const next = await Data.nextAvailableLabel(doctorId);
+    const el = document.getElementById('nextAvail_'+doctorId);
+    if(!el) return;
+    el.innerHTML = next ? `<i class="fa-solid fa-clock mr-1"></i>${formatDateShort(next.date)}, ${formatTimeDisplay(next.time)}` : `<span class="text-[var(--red)]">Currently Unavailable</span>`;
+  }catch(e){ const el=document.getElementById('nextAvail_'+doctorId); if(el) el.innerHTML=''; }
+}
+
+VIEW_RENDERERS['user-doctors'] = function(){
+  shellUser('user-doctors', `
+    <div class="anim-in">
+      <input id="docSearch" class="input mb-3" placeholder="Search by name, specialization..." oninput="filterDoctorList()">
+      <div id="specChips" class="flex gap-2 overflow-x-auto scrollbar-none pb-3 mb-1"></div>
+      <div id="doctorListWrap">${skeletonRows(4)}</div>
+    </div>
+  `, {title:'Find a Doctor'});
+
+  track(db.collection('doctors').where('isActive','==',true).onSnapshot(snap=>{
+    const docs = snap.docs.map(d=>({id:d.id, ...d.data()}));
+    St.cache.__doctorList = docs;
+    const specs = Array.from(new Set(docs.map(d=>d.specialization).filter(Boolean)));
+    $('#specChips').innerHTML = `<button class="chip active" data-spec="" onclick="setSpecFilter(this.dataset.spec)">All</button>` +
+      specs.map(s=>`<button class="chip" data-spec="${esc(s)}" onclick="setSpecFilter(this.dataset.spec)">${esc(s)}</button>`).join('');
+    filterDoctorList();
+  }, err=> $('#doctorListWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+St.specFilter = '';
+function setSpecFilter(s){
+  St.specFilter = s;
+  $$('#specChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.spec===s));
+  filterDoctorList();
+}
+function filterDoctorList(){
+  const q = ($('#docSearch')?.value||'').trim().toLowerCase();
+  let docs = St.cache.__doctorList || [];
+  if(St.specFilter) docs = docs.filter(d=>d.specialization===St.specFilter);
+  if(q) docs = docs.filter(d => (d.name||'').toLowerCase().includes(q) || (d.specialization||'').toLowerCase().includes(q) || (d.degree||'').toLowerCase().includes(q));
+  const wrap = $('#doctorListWrap');
+  if(!wrap) return;
+  if(!docs.length){ wrap.innerHTML = emptyState('fa-user-doctor','No doctors found','Try a different search or filter'); return; }
+  wrap.innerHTML = docs.map(doctorCardHtml).join('');
+  docs.forEach(d=>fillNextAvailable(d.id));
+}
+VIEW_RENDERERS['user-doctor-profile'] = function(params){
+  const doctorId = params.doctorId;
+  St.booking = {doctorId, date: null, time: null};
+  shellUser('user-doctors', `<div id="docProfileWrap" class="anim-in">${skeletonRows(4)}</div>`, {title:'Doctor Profile', back:"navigate('user-doctors')"});
+
+  let doctorDoc = null;
+  track(db.collection('doctors').doc(doctorId).onSnapshot(snap=>{
+    if(!snap.exists){ $('#docProfileWrap').innerHTML = emptyState('fa-user-doctor','Doctor not found'); return; }
+    doctorDoc = {id:snap.id, ...snap.data()};
+    St.booking.doctorName = doctorDoc.name;
+    St.booking.doctorSpecialization = doctorDoc.specialization||'';
+    St.booking.fee = doctorDoc.consultationFee;
+    renderDoctorProfileShell(doctorDoc);
+    loadDateStrip(doctorId);
+  }, err=> $('#docProfileWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+
+  track(db.collection('doctorSchedules').doc(doctorId).onSnapshot(()=>{ if(St.booking.date) selectBookingDate(doctorId, St.booking.date, true); }));
+};
+
+function renderDoctorProfileShell(doc){
+  const img = doc.imageUrl ? `<img src="${esc(doc.imageUrl)}" class="w-20 h-20 rounded-2xl object-cover" onerror="this.remove()">` : `<div class="avatar w-20 h-20 rounded-2xl text-2xl">${initials(doc.name)}</div>`;
+  $('#docProfileWrap').innerHTML = `
+    <div class="card p-5 mb-4">
+      <div class="flex gap-4">
+        ${img}
+        <div class="flex-1 min-w-0">
+          <div class="font-extrabold text-lg">Dr. ${esc(doc.name)}</div>
+          <div class="text-sm text-[var(--ink-soft)]">${esc(doc.degree||'')}</div>
+          ${doc.specialization? `<div class="text-xs font-bold text-[var(--teal-deep)] mt-0.5">${esc(doc.specialization)}</div>`:''}
+          ${doc.registrationPublic && doc.registrationNumber ? `<div class="text-[11px] text-[var(--ink-soft)] mt-1">Reg. No: ${esc(doc.registrationNumber)}</div>`:''}
+        </div>
+      </div>
+      ${doc.description? `<p class="text-sm text-[var(--ink-soft)] mt-4 leading-relaxed">${esc(doc.description)}</p>`:''}
+      <div class="flex items-center justify-between mt-4 pt-4 border-t border-[var(--line)]">
+        <div class="text-xs text-[var(--ink-soft)]">Consultation Fee</div>
+        <div class="font-extrabold text-lg text-[var(--teal-deep)]">${fmtMoney(doc.consultationFee)}</div>
+      </div>
+    </div>
+    <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide mb-2">Select Date</div>
+    <div id="dateStrip" class="flex gap-2 overflow-x-auto scrollbar-none pb-2 mb-4">${skeletonRows(1)}</div>
+    <div id="slotWrap"></div>
+    <div id="bookBarWrap"></div>
+  `;
+}
+
+async function loadDateStrip(doctorId){
+  const days = Array.from({length:14}).map((_,i)=>addDaysStr(todayIST(), i));
+  const results = await Promise.all(days.map(async d => ({d, day: await Data.getDayAvailability(doctorId, d)})));
+  const strip = $('#dateStrip');
+  if(!strip) return;
+  strip.innerHTML = results.map(r=>{
+    const dow = new Date(r.d+'T12:00:00').getDay();
+    const disabled = !r.day.available;
+    return `<button class="date-pill shrink-0 ${disabled?'disabled':''}" data-date="${r.d}" onclick="selectBookingDate('${doctorId}','${r.d}')">
+      <div class="text-[10px] font-bold text-[var(--ink-soft)]">${DAY_LABEL_SHORT[DAYS[dow]]}</div>
+      <div class="font-extrabold text-sm">${r.d.slice(8,10)}</div>
+    </button>`;
+  }).join('');
+  const firstOpen = results.find(r=>r.day.available);
+  if(firstOpen) selectBookingDate(doctorId, firstOpen.d);
+  else $('#slotWrap').innerHTML = `<div class="card p-6 text-center"><div class="font-extrabold text-[var(--red)] mb-1"><i class="fa-solid fa-circle-xmark mr-1"></i>Currently Unavailable</div><div class="text-xs text-[var(--ink-soft)]">No open slots in the next two weeks.</div></div>`;
+}
+
+async function selectBookingDate(doctorId, dateStr, silent){
+  St.booking.date = dateStr; St.booking.time = null;
+  $$('#dateStrip .date-pill').forEach(el=>el.classList.toggle('active', el.dataset.date===dateStr));
+  const wrap = $('#slotWrap');
+  if(!silent) wrap.innerHTML = `<div class="grid grid-cols-4 gap-2 mt-1">${Array.from({length:8}).map(()=>'<div class="skeleton h-10 rounded-lg"></div>').join('')}</div>`;
+  const {day, slots} = await Data.getAvailableSlots(doctorId, dateStr);
+  if(!$('#slotWrap')) return;
+  if(!day.available){
+    $('#slotWrap').innerHTML = `<div class="card p-5 text-center text-sm text-[var(--ink-soft)]">Not available on this date.</div>`;
+    $('#bookBarWrap').innerHTML = '';
+    return;
+  }
+  if(!slots.length){
+    $('#slotWrap').innerHTML = `<div class="card p-5 text-center text-sm text-[var(--ink-soft)]">No slots configured for this date.</div>`;
+    return;
+  }
+  $('#slotWrap').innerHTML = `
+    ${day.note? `<div class="text-xs bg-[var(--amber-soft)] text-[var(--amber)] rounded-lg px-3 py-2 mb-3"><i class="fa-solid fa-note-sticky mr-1"></i>${esc(day.note)}</div>`:''}
+    <div class="grid grid-cols-4 gap-2">
+      ${slots.map(s=>`<button class="slot-btn" data-time="${s.time}" ${s.taken?'disabled':''} onclick="selectBookingTime('${s.time}')">${formatTimeDisplay(s.time)}</button>`).join('')}
+    </div>`;
+  $('#bookBarWrap').innerHTML = '';
+}
+function selectBookingTime(t){
+  St.booking.time = t;
+  $$('#slotWrap .slot-btn').forEach(el=>el.classList.toggle('active', el.dataset.time===t));
+  $('#bookBarWrap').innerHTML = `
+    <div class="sticky bottom-2 mt-4">
+      <button class="btn btn-primary btn-block shadow-lg" onclick="openBookingReview()"><i class="fa-solid fa-calendar-check"></i> Continue — ${formatTimeDisplay(t)}</button>
+    </div>`;
+}
+
+function openBookingReview(){
+  const b = St.booking;
+  openModal(`
+    <div class="px-1">
+      <h3 class="font-extrabold text-lg mb-4">Review Appointment</h3>
+      <div class="space-y-2.5 text-sm mb-5">
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Doctor</span><span class="font-bold">Dr. ${esc(b.doctorName)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Date</span><span class="font-bold">${formatDateDisplay(b.date)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Time</span><span class="font-bold">${formatTimeDisplay(b.time)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Consultation Fee</span><span class="font-bold">${fmtMoney(b.fee)}</span></div>
+        <div class="h-px bg-[var(--line)] my-1"></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Patient</span><span class="font-bold">${esc(St.profile.name)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Phone</span><span class="font-bold">${esc(St.profile.phone)}</span></div>
+      </div>
+      <button class="btn btn-primary btn-block" id="submitBookingBtn" onclick="submitBooking()">Submit Appointment Request</button>
+      <button class="btn btn-ghost btn-block mt-1" onclick="closeModal()">Cancel</button>
+    </div>`);
+}
+async function submitBooking(){
+  const btn = $('#submitBookingBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting...';
+  const b = St.booking;
+  try{
+    await Data.bookAppointment({
+      doctorId: b.doctorId, doctorName: b.doctorName, doctorSpecialization: b.doctorSpecialization,
+      consultationFee: b.fee, appointmentDate: b.date, appointmentTime: b.time
+    });
+    closeModal();
+    openModal(`
+      <div class="text-center px-2 py-3">
+        <div class="w-16 h-16 rounded-full bg-[var(--amber-soft)] text-[var(--amber)] flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-hourglass-half text-2xl"></i></div>
+        <h3 class="font-extrabold text-lg mb-1">Appointment Request Submitted</h3>
+        <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-5">Your appointment request has been sent to Duttapukur Polyclinic.<br><br>Status: <b>Pending Confirmation</b><br>You'll see the confirmed status here once the clinic approves your request.</p>
+        <button class="btn btn-primary btn-block" onclick="closeModal();navigate('user-appointments')">View My Appointments</button>
+      </div>`, {dismissible:false});
+  }catch(err){
+    if(err && err.code === 'slot-taken'){
+      closeModal();
+      toast('This time slot is no longer available. Please select another slot.', 'error');
+      selectBookingDate(b.doctorId, b.date);
+    } else {
+      btn.disabled=false; btn.innerHTML='Submit Appointment Request';
+      toast(friendlyFireError(err), 'error');
+    }
+  }
+}
+function apptMetaLine(a, opts={}){
+  return `<div class="text-xs text-[var(--ink-soft)] mt-0.5">${formatDateDisplay(a.appointmentDate)} · ${formatTimeDisplay(a.appointmentTime)}${opts.extra?(' · '+opts.extra):''}</div>`;
+}
+
+function userApptCard(a){
+  return `
+  <div class="card p-4 flex items-center gap-3 mb-3 cursor-pointer" onclick="openAppointmentDetail('${a.id}')">
+    <div class="avatar w-11 h-11 shrink-0">${initials(a.doctorName)}</div>
+    <div class="flex-1 min-w-0">
+      <div class="font-extrabold truncate">Dr. ${esc(a.doctorName)}</div>
+      ${apptMetaLine(a)}
+    </div>
+    <div class="text-right shrink-0">
+      ${statusBadge(a.status)}
+      <div class="text-xs font-bold text-[var(--ink-soft)] mt-1">${fmtMoney(a.consultationFee)}</div>
+    </div>
+  </div>`;
+}
+
+VIEW_RENDERERS['user-appointments'] = function(params={}){
+  const tab = params.tab || 'upcoming';
+  shellUser('user-appointments', `
+    <div class="anim-in">
+      <div class="flex gap-2 mb-4">
+        <button class="tab-btn ${tab==='upcoming'?'active':''}" onclick="navigate('user-appointments',{tab:'upcoming'})">Upcoming</button>
+        <button class="tab-btn ${tab==='past'?'active':''}" onclick="navigate('user-appointments',{tab:'past'})">Past</button>
+      </div>
+      <div id="apptListWrap">${skeletonRows(3)}</div>
+    </div>
+  `, {title:'My Appointments'});
+
+  track(db.collection('appointments').where('patientId','==',St.user.uid).orderBy('createdAt','desc').limit(100)
+    .onSnapshot(snap=>{
+      const wrap = $('#apptListWrap'); if(!wrap) return;
+      let list = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+      list.forEach(a=> St.cache[a.id]=a);
+      list = tab==='upcoming' ? list.filter(a=>['pending','confirmed'].includes(a.status)) : list.filter(a=>['completed','rejected','cancelled'].includes(a.status));
+      list.sort((a,b)=> tab==='upcoming' ? (a.appointmentDate+a.appointmentTime).localeCompare(b.appointmentDate+b.appointmentTime) : (b.appointmentDate+b.appointmentTime).localeCompare(a.appointmentDate+a.appointmentTime));
+      wrap.innerHTML = list.length ? list.map(userApptCard).join('') : emptyState('fa-calendar-xmark', tab==='upcoming'?'No upcoming appointments':'No past appointments', tab==='upcoming'?'Book a doctor to get started':'');
+    }, err=> $('#apptListWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+
+async function openAppointmentDetail(id){
+  let a = St.cache[id];
+  if(!a){
+    const snap = await db.collection('appointments').doc(id).get();
+    if(!snap.exists){ toast('Appointment not found','error'); return; }
+    a = {id, ...snap.data()};
+  }
+  const isPatientView = St.role === 'user';
+  const statusMsg = {
+    pending: {icon:'fa-hourglass-half', color:'amber', text: isPatientView ? 'Your appointment request has been sent to Duttapukur Polyclinic. You will see the confirmed status here once the clinic approves your request.' : 'Awaiting admin confirmation.'},
+    confirmed: {icon:'fa-circle-check', color:'green', text: isPatientView ? 'Your appointment is confirmed. Please arrive a few minutes early.' : 'Confirmed and on the schedule.'},
+    rejected: {icon:'fa-circle-xmark', color:'red', text: isPatientView ? 'Please contact Duttapukur Polyclinic for assistance or book another available slot.' : 'This request was rejected.'},
+    cancelled: {icon:'fa-ban', color:'gray', text:'This appointment was cancelled.'},
+    completed: {icon:'fa-clipboard-check', color:'blue', text:'This consultation has been completed.'}
+  }[a.status] || {icon:'fa-circle-info', color:'gray', text:''};
+  openModal(`
+    <div class="px-1">
+      <div class="text-center mb-4">
+        <div class="w-14 h-14 rounded-full bg-[var(--${statusMsg.color}-soft)] text-[var(--${statusMsg.color})] flex items-center justify-center mx-auto mb-2"><i class="fa-solid ${statusMsg.icon} text-xl"></i></div>
+        <div class="font-extrabold">${STATUS_LABEL[a.status]||a.status}</div>
+      </div>
+      <div class="space-y-2.5 text-sm mb-4">
+        ${!isPatientView ? `
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Patient</span><span class="font-bold">${esc(a.patientName)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Phone</span><span class="font-bold">${esc(a.patientPhone)}</span></div>`:''}
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Doctor</span><span class="font-bold">Dr. ${esc(a.doctorName)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Date</span><span class="font-bold">${formatDateDisplay(a.appointmentDate)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Time</span><span class="font-bold">${formatTimeDisplay(a.appointmentTime)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Consultation Fee</span><span class="font-bold">${fmtMoney(a.consultationFee)}</span></div>
+        <div class="flex justify-between"><span class="text-[var(--ink-soft)]">Booking ID</span><span class="font-bold text-xs">${esc(a.id)}</span></div>
+      </div>
+      ${statusMsg.text? `<p class="text-xs text-[var(--ink-soft)] leading-relaxed mb-4">${statusMsg.text}</p>`:''}
+      ${!isPatientView ? `<a href="tel:${esc(a.patientPhone)}" class="btn btn-outline btn-block mb-2"><i class="fa-solid fa-phone"></i> Call Patient</a>`:''}
+      <button class="btn btn-ghost btn-block" onclick="closeModal()">Close</button>
+    </div>`);
+}
+
+VIEW_RENDERERS['user-profile'] = function(){
+  shellUser('user-profile', `
+    <div class="anim-in">
+      <div class="card p-5 mb-4 text-center">
+        <div class="avatar w-16 h-16 text-xl mx-auto mb-3">${initials(St.profile.name)}</div>
+        <div class="font-extrabold text-lg">${esc(St.profile.name)}</div>
+        <div class="text-sm text-[var(--ink-soft)]">${esc(St.profile.phone)}</div>
+      </div>
+      <div class="card p-4 mb-4">
+        <label class="field-label">Full Name</label>
+        <input id="profileName" class="input" value="${esc(St.profile.name)}">
+        <button class="btn btn-primary btn-block mt-3" onclick="App.saveUserProfile()">Save Changes</button>
+      </div>
+      <button class="btn btn-outline btn-block" onclick="App.logout()"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+    </div>
+  `, {title:'Profile'});
+};
+App.saveUserProfile = async function(){
+  const name = $('#profileName').value.trim();
+  if(!name){ toast('Name cannot be empty','error'); return; }
+  try{
+    await db.collection('users').doc(St.user.uid).update({name, updatedAt: FieldValue.serverTimestamp()});
+    St.profile.name = name;
+    toast('Profile updated','success');
+    navigate('user-profile');
+  }catch(err){ toast(friendlyFireError(err),'error'); }
+};
+/* ============================================================
+   DOCTOR PANEL
+   ============================================================ */
+VIEW_RENDERERS['doctor-dashboard'] = function(){
+  shellStaff('doctor', 'doctor-dashboard', 'Dashboard', `
+    <div class="anim-in">
+      <div class="mb-5">
+        <div class="text-lg font-extrabold">Welcome, Dr. ${esc(St.doctor?.name||'')}</div>
+        <div class="text-sm text-[var(--ink-soft)]">${esc(St.doctor?.specialization||'')}</div>
+      </div>
+      <div class="grid grid-cols-3 gap-3 mb-5" id="dTodayStats">${skeletonRows(1)}</div>
+      <div class="grid grid-cols-3 gap-3 mb-6" id="dRevenueStats">${skeletonRows(1)}</div>
+      <div class="grid grid-cols-2 gap-2 mb-6">
+        <button class="card p-3 text-center" onclick="navigate('doctor-availability')"><i class="fa-solid fa-clock text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">Manage Availability</div></button>
+        <button class="card p-3 text-center" onclick="navigate('doctor-fee')"><i class="fa-solid fa-indian-rupee-sign text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">Consultation Fee</div></button>
+        <button class="card p-3 text-center" onclick="navigate('doctor-appointments')"><i class="fa-solid fa-calendar-check text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">View Appointments</div></button>
+        <button class="card p-3 text-center" onclick="navigate('doctor-messages')"><i class="fa-solid fa-comments text-[var(--teal)] mb-1"></i><div class="text-xs font-bold">Message Admin</div></button>
+      </div>
+      <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide mb-2">Upcoming Appointments</div>
+      <div id="dUpcomingWrap">${skeletonRows(3)}</div>
+    </div>
+  `);
+
+  const from = addDaysStr(todayIST(), -35);
+  track(db.collection('appointments').where('doctorId','==',St.user.uid).where('appointmentDate','>=',from).orderBy('appointmentDate','asc')
+    .onSnapshot(snap=>{
+      const all = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+      all.forEach(a=>St.cache[a.id]=a);
+      const today = todayIST();
+      const todays = all.filter(a=>a.appointmentDate===today);
+      const [ws,we] = weekBounds(today), [ms,me] = monthBounds(today);
+      const todayStatsEl = $('#dTodayStats');
+      if(todayStatsEl){
+        const p = todays.filter(a=>a.status==='pending').length, c = todays.filter(a=>a.status==='confirmed').length, cp = todays.filter(a=>a.status==='completed').length;
+        todayStatsEl.innerHTML = statCardMini('Pending','amber',p) + statCardMini('Confirmed','green',c) + statCardMini('Completed','blue',cp);
+      }
+      const revEl = $('#dRevenueStats');
+      if(revEl){
+        const rt = splitRevenue(todays);
+        const rw = splitRevenue(all.filter(a=>inRange(a.appointmentDate,ws,we)));
+        const rm = splitRevenue(all.filter(a=>inRange(a.appointmentDate,ms,me)));
+        revEl.innerHTML = revCardMini("Today's Revenue", rt) + revCardMini('This Week', rw) + revCardMini('This Month', rm);
+      }
+      const upWrap = $('#dUpcomingWrap');
+      if(upWrap){
+        const upcoming = all.filter(a=>a.appointmentDate>=today && ['pending','confirmed'].includes(a.status)).slice(0,6);
+        upWrap.innerHTML = upcoming.length ? upcoming.map(a=>doctorApptCard(a)).join('') : emptyState('fa-calendar-xmark','No upcoming appointments');
+      }
+    }, err=> { $('#dTodayStats').innerHTML=''; $('#dRevenueStats').innerHTML=''; $('#dUpcomingWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err)); }));
+};
+
+function statCardMini(label, color, val){
+  return `<div class="stat-card text-center"><div class="text-2xl font-extrabold text-[var(--${color})]">${val}</div><div class="text-[11px] font-bold text-[var(--ink-soft)] mt-0.5">${label}</div></div>`;
+}
+function revCardMini(label, r){
+  return `<div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">${label}</div><div class="text-lg font-extrabold">${fmtMoney(r.total)}</div>
+    <div class="text-[10px] text-[var(--ink-soft)] mt-0.5">Earned ${fmtMoney(r.earned)} · Expected ${fmtMoney(r.expected)}</div></div>`;
+}
+
+function doctorApptCard(a){
+  let actions = '';
+  if(a.status==='confirmed'){
+    actions = `<button class="btn btn-sm btn-outline mt-2" onclick="event.stopPropagation();doctorMarkCompleted('${a.id}')"><i class="fa-solid fa-check-double"></i> Mark Completed</button>`;
+  }
+  return `
+  <div class="card p-4 mb-3">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="openAppointmentDetail('${a.id}')">
+      <div class="avatar w-11 h-11 shrink-0">${initials(a.patientName)}</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-extrabold truncate">${esc(a.patientName)}</div>
+        ${apptMetaLine(a, {extra: fmtMoney(a.consultationFee)})}
+      </div>
+      ${statusBadge(a.status)}
+    </div>
+    ${actions}
+  </div>`;
+}
+async function doctorMarkCompleted(id){
+  const a = St.cache[id]; if(!a) return;
+  try{ await Data.setAppointmentStatus(a, 'completed'); toast('Marked as completed','success'); }
+  catch(err){ toast(friendlyFireError(err),'error'); }
+}
+VIEW_RENDERERS['doctor-appointments'] = function(params={}){
+  const filter = params.filter || 'today';
+  const filters = [
+    {k:'today',l:'Today'},{k:'tomorrow',l:'Tomorrow'},{k:'week',l:'This Week'},
+    {k:'upcoming',l:'Upcoming'},{k:'completed',l:'Completed'},{k:'rejected',l:'Rejected'},{k:'range',l:'Date Range'}
+  ];
+  shellStaff('doctor', 'doctor-appointments', 'Appointments', `
+    <div class="anim-in">
+      <div class="flex gap-2 overflow-x-auto scrollbar-none pb-2 mb-3">
+        ${filters.map(f=>`<button class="chip ${filter===f.k?'active':''}" onclick="navigate('doctor-appointments',{filter:'${f.k}'})">${f.l}</button>`).join('')}
+      </div>
+      ${filter==='range' ? `
+      <div class="card p-3 flex flex-wrap gap-2 items-end mb-3">
+        <div><label class="field-label">From</label><input type="date" id="rangeFrom" class="input"></div>
+        <div><label class="field-label">To</label><input type="date" id="rangeTo" class="input"></div>
+        <button class="btn btn-primary btn-sm" onclick="applyDoctorRange()">Apply</button>
+      </div>`:''}
+      <input id="docApptSearch" class="input mb-3" placeholder="Search by patient name or phone..." oninput="renderDoctorApptList()">
+      <div id="doctorApptListWrap">${skeletonRows(4)}</div>
+    </div>
+  `);
+
+  track(db.collection('appointments').where('doctorId','==',St.user.uid).orderBy('createdAt','desc').limit(300)
+    .onSnapshot(snap=>{
+      St.cache.__doctorAppts = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+      St.cache.__doctorAppts.forEach(a=>St.cache[a.id]=a);
+      renderDoctorApptList();
+    }, err=> $('#doctorApptListWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+function applyDoctorRange(){ renderDoctorApptList(); }
+function renderDoctorApptList(){
+  const wrap = $('#doctorApptListWrap'); if(!wrap) return;
+  const filter = St.viewParams.filter || 'today';
+  let list = St.cache.__doctorAppts || [];
+  const today = todayIST();
+  if(filter==='today') list = list.filter(a=>a.appointmentDate===today);
+  else if(filter==='tomorrow') list = list.filter(a=>a.appointmentDate===addDaysStr(today,1));
+  else if(filter==='week'){ const [ws,we]=weekBounds(today); list = list.filter(a=>inRange(a.appointmentDate,ws,we)); }
+  else if(filter==='upcoming') list = list.filter(a=>a.appointmentDate>=today && ['pending','confirmed'].includes(a.status));
+  else if(filter==='completed') list = list.filter(a=>a.status==='completed');
+  else if(filter==='rejected') list = list.filter(a=>a.status==='rejected');
+  else if(filter==='range'){
+    const from = $('#rangeFrom')?.value, to = $('#rangeTo')?.value;
+    if(from && to) list = list.filter(a=>inRange(a.appointmentDate, from, to));
+  }
+  const q = ($('#docApptSearch')?.value||'').trim().toLowerCase();
+  if(q) list = list.filter(a=>(a.patientName||'').toLowerCase().includes(q) || (a.patientPhone||'').includes(q));
+  list.sort((a,b)=>(a.appointmentDate+a.appointmentTime).localeCompare(b.appointmentDate+b.appointmentTime));
+  wrap.innerHTML = list.length ? list.map(doctorApptCard).join('') : emptyState('fa-calendar-xmark','No appointments found');
+}
+
+/* ---------------- Doctor availability ---------------- */
+VIEW_RENDERERS['doctor-availability'] = function(){
+  shellStaff('doctor', 'doctor-availability', 'Availability', `
+    <div class="anim-in">
+      <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide mb-2">Weekly Schedule</div>
+      <div id="weeklyWrap" class="space-y-2 mb-4">${skeletonRows(4)}</div>
+      <button class="btn btn-primary btn-block mb-8" onclick="saveWeeklySchedule()">Save Weekly Schedule</button>
+
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide">Special Dates</div>
+        <button class="btn btn-sm btn-outline" onclick="openSpecialDateModal()"><i class="fa-solid fa-plus"></i> Add</button>
+      </div>
+      <div id="specialDatesWrap">${skeletonRows(2)}</div>
+    </div>
+  `);
+
+  track(db.collection('doctorSchedules').doc(St.user.uid).onSnapshot(snap=>{
+    const weekly = snap.exists ? (snap.data().weeklySchedule||{}) : {};
+    renderWeeklyEditor(weekly);
+  }, err=> toast(friendlyFireError(err),'error')));
+
+  track(db.collection('doctorSchedules').doc(St.user.uid).collection('specialDates').orderBy('date','asc')
+    .onSnapshot(snap=>{
+      const wrap = $('#specialDatesWrap'); if(!wrap) return;
+      const list = snap.docs.map(d=>({id:d.id,...d.data()})).filter(sd=>sd.date>=todayIST());
+      St.cache.__specialDates = {}; list.forEach(sd=>St.cache.__specialDates[sd.id]=sd);
+      wrap.innerHTML = list.length ? list.map(sd=>`
+        <div class="card p-3 flex items-center gap-3 mb-2">
+          <div class="w-11 h-11 rounded-xl ${sd.available?'bg-[var(--green-soft)] text-[var(--green)]':'bg-[var(--red-soft)] text-[var(--red)]'} flex items-center justify-center font-extrabold text-xs text-center leading-tight shrink-0">${formatDateShort(sd.date)}</div>
+          <div class="flex-1 min-w-0">
+            <div class="font-bold text-sm">${sd.available? (formatTimeDisplay(sd.startTime)+' – '+formatTimeDisplay(sd.endTime)) : 'Unavailable'}</div>
+            ${sd.note? `<div class="text-xs text-[var(--ink-soft)] truncate">${esc(sd.note)}</div>`:''}
+          </div>
+          <button class="w-8 h-8 rounded-full hover:bg-[var(--red-soft)] hover:text-[var(--red)] flex items-center justify-center shrink-0" onclick="deleteSpecialDate('${sd.id}')"><i class="fa-solid fa-trash text-xs"></i></button>
+        </div>`).join('') : emptyState('fa-calendar','No special dates', 'Add holidays, extra chambers, or timing changes');
+    }, err=> toast(friendlyFireError(err),'error')));
+};
+
+function renderWeeklyEditor(weekly){
+  const wrap = $('#weeklyWrap'); if(!wrap) return;
+  wrap.innerHTML = DAYS.map(day=>{
+    const d = weekly[day] || {available:false, startTime:'17:00', endTime:'20:00', slotDuration:15};
+    return `
+    <div class="card p-3" data-day="${day}">
+      <div class="flex items-center justify-between">
+        <span class="font-extrabold text-sm">${DAY_LABEL_BN[day]}</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer day-toggle" ${d.available?'checked':''} onchange="toggleDayRow(this)">
+          <div class="w-10 bg-[var(--gray-soft)] peer-checked:bg-[var(--teal)] rounded-full transition-all relative" style="height:22px">
+            <div class="absolute top-[2px] left-[2px] bg-white w-[18px] h-[18px] rounded-full transition-all peer-checked:translate-x-[18px]" style="transform:translateX(${d.available?'18px':'0'})"></div>
+          </div>
+        </label>
+      </div>
+      <div class="day-fields grid grid-cols-3 gap-2 mt-3 ${d.available?'':'hidden'}">
+        <div><label class="field-label">Start</label><input type="time" class="input day-start" value="${d.startTime||'17:00'}"></div>
+        <div><label class="field-label">End</label><input type="time" class="input day-end" value="${d.endTime||'20:00'}"></div>
+        <div><label class="field-label">Slot (min)</label><input type="number" min="5" step="5" class="input day-dur" value="${d.slotDuration||15}"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleDayRow(cb){
+  const fields = cb.closest('.card').querySelector('.day-fields');
+  fields.classList.toggle('hidden', !cb.checked);
+  const thumb = cb.closest('label').querySelector('div>div');
+  if(thumb) thumb.style.transform = cb.checked ? 'translateX(18px)' : 'translateX(0)';
+  const track = cb.closest('label').querySelector('div');
+  if(track) track.style.background = cb.checked ? 'var(--teal)' : '';
+}
+async function saveWeeklySchedule(){
+  const weekly = {};
+  $$('#weeklyWrap [data-day]').forEach(row=>{
+    const day = row.dataset.day;
+    const available = row.querySelector('.day-toggle').checked;
+    if(available){
+      weekly[day] = {
+        available:true,
+        startTime: row.querySelector('.day-start').value,
+        endTime: row.querySelector('.day-end').value,
+        slotDuration: Number(row.querySelector('.day-dur').value) || 15
+      };
+    } else weekly[day] = {available:false};
+  });
+  for(const day of DAYS){
+    if(weekly[day].available && weekly[day].startTime >= weekly[day].endTime){
+      toast(`${DAY_LABEL_BN[day]}: End time must be after start time`, 'error'); return;
+    }
+  }
+  try{
+    await db.collection('doctorSchedules').doc(St.user.uid).set({weeklySchedule: weekly, updatedAt: FieldValue.serverTimestamp()}, {merge:true});
+    toast('Weekly schedule saved','success');
+  }catch(err){ toast(friendlyFireError(err),'error'); }
+}
+
+function openSpecialDateModal(){
+  openModal(`
+    <div class="px-1">
+      <h3 class="font-extrabold text-lg mb-4">Add Special Date</h3>
+      <label class="field-label">Date</label>
+      <input type="date" id="sdDate" class="input" min="${todayIST()}">
+      <div class="flex items-center justify-between mt-4 mb-1">
+        <label class="field-label mb-0">Available on this date</label>
+        <input type="checkbox" id="sdAvailable" checked onchange="$('#sdTimeFields').classList.toggle('hidden', !this.checked)">
+      </div>
+      <div id="sdTimeFields" class="grid grid-cols-2 gap-2 mt-2">
+        <div><label class="field-label">Start</label><input type="time" id="sdStart" class="input" value="17:00"></div>
+        <div><label class="field-label">End</label><input type="time" id="sdEnd" class="input" value="20:00"></div>
+      </div>
+      <label class="field-label mt-4">Note (optional)</label>
+      <input id="sdNote" class="input" placeholder="e.g. Extra chamber, Holiday">
+      <button class="btn btn-primary btn-block mt-5" onclick="saveSpecialDate()">Save Special Date</button>
+    </div>`);
+}
+async function saveSpecialDate(){
+  const date = $('#sdDate').value;
+  if(!date){ toast('Select a date','error'); return; }
+  const available = $('#sdAvailable').checked;
+  const payload = {date, available, note: $('#sdNote').value.trim(), createdAt: FieldValue.serverTimestamp()};
+  if(available){
+    const st = $('#sdStart').value, en = $('#sdEnd').value;
+    if(st >= en){ toast('End time must be after start time','error'); return; }
+    payload.startTime = st; payload.endTime = en; payload.slotDuration = 15;
+  }
+  try{
+    await db.collection('doctorSchedules').doc(St.user.uid).collection('specialDates').doc(date).set(payload);
+    closeModal();
+    toast('Special date saved','success');
+  }catch(err){ toast(friendlyFireError(err),'error'); }
+}
+function deleteSpecialDate(id){
+  confirmDialog({icon:'fa-trash', title:'Remove special date?', body:'The weekly schedule will apply on this date again.', confirmText:'Remove', danger:true, onConfirm: async ()=>{
+    try{ await db.collection('doctorSchedules').doc(St.user.uid).collection('specialDates').doc(id).delete(); toast('Removed','success'); }
+    catch(err){ toast(friendlyFireError(err),'error'); }
+  }});
+}
+/* ---------------- Doctor fee ---------------- */
+VIEW_RENDERERS['doctor-fee'] = function(){
+  const fee = St.doctor?.consultationFee || 0;
+  shellStaff('doctor', 'doctor-fee', 'Consultation Fee', `
+    <div class="anim-in max-w-sm">
+      <div class="card p-6 text-center mb-4">
+        <div class="text-xs font-bold text-[var(--ink-soft)] uppercase tracking-wide mb-1">Current Fee</div>
+        <div class="text-3xl font-extrabold text-[var(--teal-deep)]">${fmtMoney(fee)}</div>
+      </div>
+      <div class="card p-4">
+        <label class="field-label">New Consultation Fee (₹)</label>
+        <input id="newFee" type="number" min="0" class="input" value="${fee}">
+        <button class="btn btn-primary btn-block mt-3" onclick="saveConsultationFee()">Update Fee</button>
+        <p class="text-xs text-[var(--ink-soft)] mt-3 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i>Updating your fee only affects new bookings. Past appointments keep the fee that applied at the time of booking.</p>
+      </div>
+    </div>
+  `);
+};
+async function saveConsultationFee(){
+  const fee = Number($('#newFee').value);
+  if(!(fee >= 0)){ toast('Enter a valid fee','error'); return; }
+  try{
+    await db.collection('doctors').doc(St.user.uid).update({consultationFee: fee, updatedAt: FieldValue.serverTimestamp()});
+    St.doctor.consultationFee = fee;
+    toast('Consultation fee updated','success');
+    navigate('doctor-fee');
+  }catch(err){ toast(friendlyFireError(err),'error'); }
+}
+
+/* ---------------- Doctor finance ---------------- */
+VIEW_RENDERERS['doctor-finance'] = function(params={}){
+  const range = params.range || 'today';
+  shellStaff('doctor', 'doctor-finance', 'Finance Dashboard', `
+    <div class="anim-in">
+      <div class="flex gap-2 overflow-x-auto scrollbar-none pb-2 mb-4">
+        ${[['today','Today'],['tomorrow','Tomorrow'],['week','This Week'],['lastweek','Last Week'],['month','This Month'],['lastmonth','Last Month'],['custom','Custom Range']]
+          .map(([k,l])=>`<button class="chip ${range===k?'active':''}" onclick="navigate('doctor-finance',{range:'${k}'})">${l}</button>`).join('')}
+      </div>
+      ${range==='custom' ? `
+      <div class="card p-3 flex flex-wrap gap-2 items-end mb-4">
+        <div><label class="field-label">From</label><input type="date" id="finFrom" class="input"></div>
+        <div><label class="field-label">To</label><input type="date" id="finTo" class="input"></div>
+        <button class="btn btn-primary btn-sm" onclick="loadDoctorFinanceCustom()">Apply</button>
+      </div>`:''}
+      <div id="financeSummary" class="mb-6">${skeletonRows(1)}</div>
+      <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide mb-2">Revenue by Day</div>
+      <div id="financeTableWrap" class="card p-0 overflow-x-auto">${skeletonRows(3)}</div>
+    </div>
+  `);
+
+  if(range === 'custom'){ renderFinanceEmpty(); return; }
+  const today = todayIST();
+  let from, to;
+  if(range==='today'){ from=today; to=today; }
+  else if(range==='tomorrow'){ from=to=addDaysStr(today,1); }
+  else if(range==='week'){ [from,to] = weekBounds(today); }
+  else if(range==='lastweek'){ const [ws] = weekBounds(today); to = addDaysStr(ws,-1); from = addDaysStr(to,-6); }
+  else if(range==='month'){ [from,to] = monthBounds(today); }
+  else if(range==='lastmonth'){ const [ms] = monthBounds(today); to = addDaysStr(ms,-1); [from] = monthBounds(to); }
+  fetchAndRenderDoctorFinance(from, to);
+};
+function renderFinanceEmpty(){
+  $('#financeSummary').innerHTML = emptyState('fa-calendar','Pick a date range','Choose From and To dates, then tap Apply');
+  $('#financeTableWrap').innerHTML = '';
+}
+function loadDoctorFinanceCustom(){
+  const from = $('#finFrom').value, to = $('#finTo').value;
+  if(!from || !to || from>to){ toast('Select a valid date range','error'); return; }
+  fetchAndRenderDoctorFinance(from, to);
+}
+async function fetchAndRenderDoctorFinance(from, to){
+  $('#financeSummary').innerHTML = skeletonRows(1);
+  $('#financeTableWrap').innerHTML = skeletonRows(3);
+  try{
+    const snap = await db.collection('appointments').where('doctorId','==',St.user.uid)
+      .where('appointmentDate','>=',from).where('appointmentDate','<=',to).get();
+    const list = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+    const r = splitRevenue(list);
+    $('#financeSummary').innerHTML = `
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Completed (Earned)</div><div class="text-xl font-extrabold text-[var(--green)]">${fmtMoney(r.earned)}</div><div class="text-[10px] text-[var(--ink-soft)]">${r.completedCount} appointment(s)</div></div>
+        <div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Confirmed (Expected)</div><div class="text-xl font-extrabold text-[var(--amber)]">${fmtMoney(r.expected)}</div><div class="text-[10px] text-[var(--ink-soft)]">${r.confirmedCount} appointment(s)</div></div>
+      </div>
+      <div class="stat-card text-center"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Total Revenue</div><div class="text-2xl font-extrabold">${fmtMoney(r.total)}</div></div>`;
+
+    const byDate = {};
+    list.filter(a=>['completed','confirmed'].includes(a.status)).forEach(a=>{
+      byDate[a.appointmentDate] = byDate[a.appointmentDate] || {count:0, revenue:0};
+      byDate[a.appointmentDate].count++; byDate[a.appointmentDate].revenue += Number(a.consultationFee)||0;
+    });
+    const rows = Object.keys(byDate).sort().reverse();
+    $('#financeTableWrap').innerHTML = rows.length ? `
+      <table class="data-table"><thead><tr><th>Date</th><th>Appointments</th><th>Revenue</th></tr></thead><tbody>
+      ${rows.map(d=>`<tr><td>${formatDateShort(d)}</td><td>${byDate[d].count}</td><td class="font-bold">${fmtMoney(byDate[d].revenue)}</td></tr>`).join('')}
+      </tbody></table>` : emptyState('fa-chart-simple','No revenue records found');
+  }catch(err){
+    $('#financeSummary').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err));
+    $('#financeTableWrap').innerHTML = '';
+  }
+}
+/* ---------------- Doctor messages ---------------- */
+function chatBubble(m, mine){
+  return `<div class="flex ${mine?'justify-end':'justify-start'} mb-2">
+    <div class="max-w-[78%] px-3.5 py-2.5 rounded-2xl text-sm ${mine? 'bg-[var(--teal)] text-white rounded-br-sm':'bg-white border border-[var(--line)] rounded-bl-sm'}">
+      <div>${esc(m.text)}</div>
+      <div class="text-[10px] mt-1 ${mine?'text-white/70':'text-[var(--ink-soft)]'}">${timeAgo(m.createdAt)}</div>
+    </div>
+  </div>`;
+}
+VIEW_RENDERERS['doctor-messages'] = function(){
+  shellStaff('doctor', 'doctor-messages', 'Messages to Admin', `
+    <div class="anim-in flex flex-col" style="min-height:60vh">
+      <div id="chatWrap" class="flex-1 mb-3">${skeletonRows(3)}</div>
+      <div class="sticky bottom-0 bg-[var(--paper)] pt-2 flex gap-2">
+        <input id="chatInput" class="input flex-1" placeholder="Write a message..." onkeydown="if(event.key==='Enter') sendDoctorMessage()">
+        <button class="btn btn-primary" onclick="sendDoctorMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  `);
+  track(db.collection('messages').doc(St.user.uid).collection('thread').orderBy('createdAt','asc').limit(200)
+    .onSnapshot(snap=>{
+      const wrap = $('#chatWrap'); if(!wrap) return;
+      const list = snap.docs.map(d=>d.data());
+      wrap.innerHTML = list.length ? list.map(m=>chatBubble(m, m.sender==='doctor')).join('') : emptyState('fa-comments','Say hello to the admin');
+      wrap.scrollTop = wrap.scrollHeight;
+    }, err=> $('#chatWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+async function sendDoctorMessage(){
+  const input = $('#chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  try{
+    await db.collection('messages').doc(St.user.uid).collection('thread').add({
+      sender:'doctor', text, createdAt: FieldValue.serverTimestamp(), readByAdmin:false, readByDoctor:true
+    });
+    await db.collection('messages').doc(St.user.uid).set({
+      doctorId: St.user.uid, doctorName: St.doctor?.name||'', lastMessage:text, lastSender:'doctor', updatedAt: FieldValue.serverTimestamp()
+    }, {merge:true});
+  }catch(err){ toast(friendlyFireError(err),'error'); input.value = text; }
+}
+
+/* ---------------- Doctor profile / account ---------------- */
+VIEW_RENDERERS['doctor-profile'] = function(){
+  const d = St.doctor || {};
+  shellStaff('doctor', 'doctor-profile', 'Profile & Account', `
+    <div class="anim-in max-w-md">
+      <div class="card p-5 mb-4 text-center">
+        ${d.imageUrl? `<img src="${esc(d.imageUrl)}" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-3">` : `<div class="avatar w-20 h-20 rounded-2xl text-2xl mx-auto mb-3">${initials(d.name)}</div>`}
+        <div class="font-extrabold text-lg">Dr. ${esc(d.name||'')}</div>
+        <div class="text-sm text-[var(--ink-soft)]">${esc(d.degree||'')}</div>
+      </div>
+      <div class="card p-4 mb-4 space-y-3">
+        <div><div class="field-label">Specialization</div><div class="font-bold text-sm">${esc(d.specialization||'—')}</div></div>
+        <div><div class="field-label">Registration Number</div><div class="font-bold text-sm">${esc(d.registrationNumber||'—')}</div></div>
+        <div><div class="field-label">Email</div><div class="font-bold text-sm">${esc(St.user.email||'—')}</div></div>
+        <p class="text-xs text-[var(--ink-soft)]"><i class="fa-solid fa-circle-info mr-1"></i>Core profile details are managed by the clinic admin.</p>
+      </div>
+      <div class="card p-4 mb-4">
+        <label class="field-label">Short Description (shown to patients)</label>
+        <textarea id="docDesc" class="input" rows="3">${esc(d.description||'')}</textarea>
+        <button class="btn btn-outline btn-block mt-2" onclick="saveDoctorDescription()">Save Description</button>
+      </div>
+      <div class="card p-4 mb-4">
+        <div class="font-extrabold text-sm mb-3">Change Password</div>
+        <input id="curPass" type="password" class="input mb-2" placeholder="Current password">
+        <input id="newPass" type="password" class="input mb-2" placeholder="New password (min 6 characters)">
+        <button class="btn btn-outline btn-block" onclick="changeDoctorPassword()">Update Password</button>
+      </div>
+      <button class="btn btn-danger btn-block" onclick="App.logout()"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+    </div>
+  `);
+};
+async function saveDoctorDescription(){
+  try{
+    await db.collection('doctors').doc(St.user.uid).update({description: $('#docDesc').value.trim(), updatedAt: FieldValue.serverTimestamp()});
+    St.doctor.description = $('#docDesc').value.trim();
+    toast('Description updated','success');
+  }catch(err){ toast(friendlyFireError(err),'error'); }
+}
+async function changeDoctorPassword(){
+  const cur = $('#curPass').value, next = $('#newPass').value;
+  if(!cur || next.length < 6){ toast('Enter current password & a new password (min 6 chars)','error'); return; }
+  try{
+    const cred = firebase.auth.EmailAuthProvider.credential(St.user.email, cur);
+    await St.user.reauthenticateWithCredential(cred);
+    await St.user.updatePassword(next);
+    $('#curPass').value=''; $('#newPass').value='';
+    toast('Password updated','success');
+  }catch(err){
+    toast(err.code==='auth/wrong-password' ? 'Current password is incorrect' : friendlyFireError(err), 'error');
+  }
+}
+/* ============================================================
+   ADMIN PANEL
+   ============================================================ */
+VIEW_RENDERERS['admin-dashboard'] = function(){
+  shellStaff('admin', 'admin-dashboard', 'Admin Dashboard', `
+    <div class="anim-in">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5" id="aOverviewStats">${skeletonRows(1)}</div>
+      <div class="grid grid-cols-3 gap-3 mb-6" id="aRevenueStats">${skeletonRows(1)}</div>
+      <div class="grid lg:grid-cols-2 gap-5">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide">Recent Requests</div>
+            <button class="text-xs font-bold text-[var(--teal)]" onclick="navigate('admin-appointments',{filter:'pending'})">View all</button>
+          </div>
+          <div id="aRecentRequests">${skeletonRows(3)}</div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide">Recent Doctor Messages</div>
+            <button class="text-xs font-bold text-[var(--teal)]" onclick="navigate('admin-messages')">View all</button>
+          </div>
+          <div id="aRecentMessages">${skeletonRows(3)}</div>
+        </div>
+      </div>
+    </div>
+  `);
+
+  const today = todayIST();
+  const from = addDaysStr(today, -35);
+  track(db.collection('appointments').where('appointmentDate','>=',from).orderBy('appointmentDate','asc').limit(500)
+    .onSnapshot(snap=>{
+      const all = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+      all.forEach(a=>St.cache[a.id]=a);
+      const todays = all.filter(a=>a.appointmentDate===today);
+      const pending = all.filter(a=>a.status==='pending');
+      const confirmed = all.filter(a=>a.status==='confirmed');
+      $('#aOverviewStats').innerHTML =
+        statBlock('Today','fa-calendar-day', todays.length) +
+        statBlock('Pending','fa-hourglass-half', pending.length, 'amber') +
+        statBlock('Confirmed','fa-circle-check', confirmed.length, 'green') +
+        `<div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Active Doctors</div><div class="text-2xl font-extrabold" id="aDoctorCount">…</div></div>`;
+      const [ws,we]=weekBounds(today), [ms,me]=monthBounds(today);
+      const rt = splitRevenue(todays), rw = splitRevenue(all.filter(a=>inRange(a.appointmentDate,ws,we))), rm = splitRevenue(all.filter(a=>inRange(a.appointmentDate,ms,me)));
+      $('#aRevenueStats').innerHTML = revCardMini("Today's Revenue",rt) + revCardMini('This Week',rw) + revCardMini('This Month',rm);
+      const recent = all.filter(a=>a.status==='pending').sort((a,b)=> (b.requestedAt?.seconds||0)-(a.requestedAt?.seconds||0)).slice(0,5);
+      $('#aRecentRequests').innerHTML = recent.length ? recent.map(a=>adminApptCard(a,{compact:true})).join('') : emptyState('fa-inbox','No pending requests');
+    }, err=> toast(friendlyFireError(err),'error')));
+
+  track(db.collection('doctors').where('isActive','==',true).onSnapshot(snap=>{
+    const el = document.getElementById('aDoctorCount'); if(el) el.textContent = snap.size;
+    St.cache.__activeDoctorsCount = snap.size;
+  }));
+
+  track(db.collection('messages').orderBy('updatedAt','desc').limit(6).onSnapshot(snap=>{
+    const wrap = $('#aRecentMessages'); if(!wrap) return;
+    const list = snap.docs.map(d=>({id:d.id,...d.data()}));
+    wrap.innerHTML = list.length ? list.map(m=>`
+      <div class="card p-3 flex items-center gap-3 mb-2 cursor-pointer" onclick="navigate('admin-messages',{doctorId:'${m.id}'})">
+        <div class="avatar w-9 h-9 shrink-0 text-xs">${initials(m.doctorName)}</div>
+        <div class="flex-1 min-w-0"><div class="font-bold text-sm truncate">Dr. ${esc(m.doctorName||'')}</div><div class="text-xs text-[var(--ink-soft)] truncate">${esc(m.lastMessage||'')}</div></div>
+        <div class="text-[10px] text-[var(--ink-soft)] shrink-0">${timeAgo(m.updatedAt)}</div>
+      </div>`).join('') : emptyState('fa-comments','No messages yet');
+  }, err=> $('#aRecentMessages').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+function statBlock(label, icon, val, color){
+  return `<div class="stat-card"><i class="fa-solid ${icon} text-[var(--${color||'ink-soft'})] mb-2"></i><div class="text-2xl font-extrabold">${val}</div><div class="text-[11px] font-bold text-[var(--ink-soft)]">${label}</div></div>`;
+}
+function adminApptCard(a, opts={}){
+  const showActions = !opts.compact;
+  return `
+  <div class="card p-4 mb-3">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="openAppointmentDetail('${a.id}')">
+      <div class="avatar w-11 h-11 shrink-0">${initials(a.patientName)}</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-extrabold truncate">${esc(a.patientName)}</div>
+        <div class="text-xs text-[var(--ink-soft)] truncate">Dr. ${esc(a.doctorName)} · ${formatDateShort(a.appointmentDate)}, ${formatTimeDisplay(a.appointmentTime)}</div>
+      </div>
+      ${statusBadge(a.status)}
+    </div>
+    ${showActions ? `
+    <div class="flex flex-wrap gap-2 mt-3">
+      <a href="tel:${esc(a.patientPhone)}" class="btn btn-sm btn-outline" onclick="event.stopPropagation()"><i class="fa-solid fa-phone"></i> Call</a>
+      ${a.status==='pending' ? `<button class="btn btn-sm btn-primary" onclick="adminConfirmAppt('${a.id}')">Confirm</button>
+      <button class="btn btn-sm btn-ghost" onclick="adminRejectAppt('${a.id}')">Reject</button>`:''}
+      <button class="btn btn-sm btn-ghost text-[var(--red)]" onclick="adminDeleteAppt('${a.id}')"><i class="fa-solid fa-trash"></i></button>
+    </div>`:''}
+  </div>`;
+}
+function adminApptRow(a){
+  return `<tr>
+    <td class="font-bold">${esc(a.patientName)}</td>
+    <td>${esc(a.patientPhone)}</td>
+    <td>Dr. ${esc(a.doctorName)}</td>
+    <td>${formatDateShort(a.appointmentDate)}</td>
+    <td>${formatTimeDisplay(a.appointmentTime)}</td>
+    <td>${fmtMoney(a.consultationFee)}</td>
+    <td>${statusBadge(a.status)}</td>
+    <td class="text-xs text-[var(--ink-soft)]">${timeAgo(a.requestedAt)}</td>
+    <td>
+      <div class="flex gap-1.5">
+        <a href="tel:${esc(a.patientPhone)}" class="btn btn-sm btn-outline" title="Call"><i class="fa-solid fa-phone"></i></a>
+        ${a.status==='pending' ? `<button class="btn btn-sm btn-primary" onclick="adminConfirmAppt('${a.id}')">Confirm</button>
+        <button class="btn btn-sm btn-ghost" onclick="adminRejectAppt('${a.id}')">Reject</button>`:''}
+        <button class="btn btn-sm btn-ghost text-[var(--red)]" onclick="adminDeleteAppt('${a.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-sm btn-ghost" onclick="openAppointmentDetail('${a.id}')" title="View"><i class="fa-solid fa-eye"></i></button>
+      </div>
+    </td>
+  </tr>`;
+}
+
+VIEW_RENDERERS['admin-appointments'] = function(params={}){
+  const filter = params.filter || 'all';
+  const filters = [['all','All'],['pending','Pending'],['confirmed','Confirmed'],['today','Today'],['tomorrow','Tomorrow'],
+    ['this_week','This Week'],['last_week','Last Week'],['this_month','This Month'],['last_month','Last Month'],['range','Custom Range']];
+  shellStaff('admin', 'admin-appointments', 'Appointments', `
+    <div class="anim-in">
+      <div class="flex gap-2 overflow-x-auto scrollbar-none pb-2 mb-3">
+        ${filters.map(([k,l])=>`<button class="chip ${filter===k?'active':''}" onclick="navigate('admin-appointments',{filter:'${k}'})">${l}</button>`).join('')}
+      </div>
+      ${filter==='range' ? `
+      <div class="card p-3 flex flex-wrap gap-2 items-end mb-3">
+        <div><label class="field-label">From</label><input type="date" id="aRangeFrom" class="input"></div>
+        <div><label class="field-label">To</label><input type="date" id="aRangeTo" class="input"></div>
+        <button class="btn btn-primary btn-sm" onclick="renderAdminApptList()">Apply</button>
+      </div>`:''}
+      <div class="flex flex-wrap gap-2 mb-3">
+        <input id="aApptSearch" class="input flex-1 min-w-[200px]" placeholder="Search patient, phone or doctor..." oninput="renderAdminApptList()">
+        <select id="aDoctorFilter" class="input w-auto" onchange="renderAdminApptList()"><option value="">All Doctors</option></select>
+      </div>
+      <div class="hidden lg:block card overflow-x-auto">
+        <table class="data-table"><thead><tr><th>Patient</th><th>Phone</th><th>Doctor</th><th>Date</th><th>Time</th><th>Fee</th><th>Status</th><th>Requested</th><th>Actions</th></tr></thead>
+        <tbody id="aApptTableBody"><tr><td colspan="9" class="p-6 text-center text-[var(--ink-soft)]">Loading...</td></tr></tbody></table>
+      </div>
+      <div class="lg:hidden" id="aApptCardsWrap">${skeletonRows(4)}</div>
+    </div>
+  `);
+
+  db.collection('doctors').orderBy('name').get().then(snap=>{
+    const sel = $('#aDoctorFilter'); if(!sel) return;
+    sel.innerHTML = '<option value="">All Doctors</option>' + snap.docs.map(d=>`<option value="${d.id}">Dr. ${esc(d.data().name)}</option>`).join('');
+  }).catch(()=>{});
+
+  track(db.collection('appointments').orderBy('createdAt','desc').limit(400)
+    .onSnapshot(snap=>{
+      St.cache.__adminAppts = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+      St.cache.__adminAppts.forEach(a=>St.cache[a.id]=a);
+      renderAdminApptList();
+    }, err=> { $('#aApptCardsWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err)); }));
+};
+function renderAdminApptList(){
+  const cardsWrap = $('#aApptCardsWrap'), tbody = $('#aApptTableBody');
+  if(!cardsWrap && !tbody) return;
+  const filter = St.viewParams.filter || 'all';
+  let list = St.cache.__adminAppts || [];
+  const today = todayIST();
+  if(filter==='pending') list = list.filter(a=>a.status==='pending');
+  else if(filter==='confirmed') list = list.filter(a=>a.status==='confirmed');
+  else if(filter==='today') list = list.filter(a=>a.appointmentDate===today);
+  else if(filter==='tomorrow') list = list.filter(a=>a.appointmentDate===addDaysStr(today,1));
+  else if(filter==='this_week'){ const [ws,we]=weekBounds(today); list = list.filter(a=>inRange(a.appointmentDate,ws,we)); }
+  else if(filter==='last_week'){ const [ws]=weekBounds(today); const lwe=addDaysStr(ws,-1), lws=addDaysStr(lwe,-6); list = list.filter(a=>inRange(a.appointmentDate,lws,lwe)); }
+  else if(filter==='this_month'){ const [ms,me]=monthBounds(today); list = list.filter(a=>inRange(a.appointmentDate,ms,me)); }
+  else if(filter==='last_month'){ const [ms]=monthBounds(today); const lme=addDaysStr(ms,-1); const [lms]=monthBounds(lme); list = list.filter(a=>inRange(a.appointmentDate,lms,lme)); }
+  else if(filter==='range'){ const f=$('#aRangeFrom')?.value, t=$('#aRangeTo')?.value; if(f&&t) list = list.filter(a=>inRange(a.appointmentDate,f,t)); }
+  const docFilter = $('#aDoctorFilter')?.value;
+  if(docFilter) list = list.filter(a=>a.doctorId===docFilter);
+  const q = ($('#aApptSearch')?.value||'').trim().toLowerCase();
+  if(q) list = list.filter(a=>(a.patientName||'').toLowerCase().includes(q) || (a.patientPhone||'').includes(q) || (a.doctorName||'').toLowerCase().includes(q));
+  list.sort((a,b)=>(b.appointmentDate+b.appointmentTime).localeCompare(a.appointmentDate+a.appointmentTime));
+  if(cardsWrap) cardsWrap.innerHTML = list.length ? list.map(a=>adminApptCard(a)).join('') : emptyState('fa-calendar-xmark','No appointments found');
+  if(tbody) tbody.innerHTML = list.length ? list.map(adminApptRow).join('') : `<tr><td colspan="9">${emptyState('fa-calendar-xmark','No appointments found')}</td></tr>`;
+}
+
+function adminConfirmAppt(id){
+  const a = St.cache[id]; if(!a) return;
+  confirmDialog({icon:'fa-circle-check', title:'Confirm this appointment?',
+    body:`Patient: <b>${esc(a.patientName)}</b><br>Doctor: <b>Dr. ${esc(a.doctorName)}</b><br>Date: <b>${formatDateDisplay(a.appointmentDate)}</b><br>Time: <b>${formatTimeDisplay(a.appointmentTime)}</b>`,
+    confirmText:'Confirm Appointment',
+    onConfirm: async ()=>{ try{ await Data.setAppointmentStatus(a,'confirmed'); toast('Appointment confirmed','success'); }catch(err){ toast(friendlyFireError(err),'error'); } }});
+}
+function adminRejectAppt(id){
+  const a = St.cache[id]; if(!a) return;
+  confirmDialog({icon:'fa-circle-xmark', title:'Reject this appointment?', danger:true,
+    body:`Patient: <b>${esc(a.patientName)}</b> will be notified their request was rejected.`,
+    confirmText:'Reject',
+    onConfirm: async ()=>{ try{ await Data.setAppointmentStatus(a,'rejected'); toast('Appointment rejected','success'); }catch(err){ toast(friendlyFireError(err),'error'); } }});
+}
+function adminDeleteAppt(id){
+  const a = St.cache[id]; if(!a) return;
+  confirmDialog({icon:'fa-trash', title:'Delete Appointment?', danger:true,
+    body:`This should only be used when the appointment record should no longer appear in the active appointment system.`,
+    confirmText:'Delete',
+    onConfirm: async ()=>{ try{ await Data.softDeleteAppointment(a); toast('Appointment deleted','success'); }catch(err){ toast(friendlyFireError(err),'error'); } }});
+}
+/* ---------------- Admin: Doctors ---------------- */
+VIEW_RENDERERS['admin-doctors'] = function(params={}){
+  const tab = params.tab || 'active';
+  shellStaff('admin', 'admin-doctors', 'Doctors', `
+    <div class="anim-in">
+      <div class="flex items-center justify-between mb-3 gap-2 flex-wrap">
+        <div class="flex gap-2">
+          <button class="tab-btn ${tab==='active'?'active':''}" onclick="navigate('admin-doctors',{tab:'active'})">Active</button>
+          <button class="tab-btn ${tab==='inactive'?'active':''}" onclick="navigate('admin-doctors',{tab:'inactive'})">Inactive</button>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddDoctorModal()"><i class="fa-solid fa-user-plus"></i> Add Doctor</button>
+      </div>
+      <input id="docMgmtSearch" class="input mb-3" placeholder="Search by name, specialization..." oninput="renderAdminDoctorList()">
+      <div id="adminDoctorListWrap">${skeletonRows(4)}</div>
+    </div>
+  `);
+  track(db.collection('doctors').orderBy('name').onSnapshot(snap=>{
+    St.cache.__allDoctors = snap.docs.map(d=>({id:d.id,...d.data()}));
+    St.cache.__allDoctors.forEach(d=>St.cache['doc_'+d.id]=d);
+    renderAdminDoctorList();
+  }, err=> $('#adminDoctorListWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+function renderAdminDoctorList(){
+  const wrap = $('#adminDoctorListWrap'); if(!wrap) return;
+  const tab = St.viewParams.tab || 'active';
+  let list = (St.cache.__allDoctors||[]).filter(d => tab==='active' ? d.isActive!==false : d.isActive===false);
+  const q = ($('#docMgmtSearch')?.value||'').trim().toLowerCase();
+  if(q) list = list.filter(d=>(d.name||'').toLowerCase().includes(q) || (d.specialization||'').toLowerCase().includes(q));
+  wrap.innerHTML = list.length ? list.map(adminDoctorCard).join('') : emptyState('fa-user-doctor', tab==='active'?'No active doctors':'No inactive doctors');
+}
+function adminDoctorCard(d){
+  const img = d.imageUrl ? `<img src="${esc(d.imageUrl)}" class="w-14 h-14 rounded-2xl object-cover shrink-0" onerror="this.remove()">` : `<div class="avatar w-14 h-14 rounded-2xl shrink-0 text-lg">${initials(d.name)}</div>`;
+  return `
+  <div class="card p-4 flex items-center gap-3 mb-3">
+    ${img}
+    <div class="flex-1 min-w-0">
+      <div class="font-extrabold truncate">Dr. ${esc(d.name)} ${d.isActive===false?'<span class="badge badge-cancelled ml-1">Inactive</span>':''}</div>
+      <div class="text-xs text-[var(--ink-soft)] truncate">${esc(d.degree||'')} ${d.specialization?'· '+esc(d.specialization):''}</div>
+      <div class="text-xs font-bold text-[var(--teal-deep)] mt-0.5">${fmtMoney(d.consultationFee)}</div>
+    </div>
+    <div class="flex flex-col gap-1.5 shrink-0">
+      <button class="btn btn-sm btn-outline" onclick="openEditDoctorModal('${d.id}')"><i class="fa-solid fa-pen"></i></button>
+      ${d.isActive===false ?
+        `<button class="btn btn-sm btn-primary" onclick="toggleDoctorActive('${d.id}',true)">Activate</button>` :
+        `<button class="btn btn-sm btn-ghost text-[var(--red)]" onclick="toggleDoctorActive('${d.id}',false)">Deactivate</button>`}
+    </div>
+  </div>`;
+}
+function toggleDoctorActive(id, active){
+  confirmDialog({icon: active?'fa-circle-check':'fa-ban', title: active?'Activate doctor?':'Deactivate doctor?', danger:!active,
+    body: active ? 'This doctor will reappear for new bookings.' : 'This doctor will disappear from new bookings. Existing appointments and finance records are kept.',
+    confirmText: active?'Activate':'Deactivate',
+    onConfirm: async ()=>{
+      try{ await db.collection('doctors').doc(id).update({isActive:active, updatedAt:FieldValue.serverTimestamp()}); toast(active?'Doctor activated':'Doctor deactivated','success'); }
+      catch(err){ toast(friendlyFireError(err),'error'); }
+    }});
+}
+
+function addDoctorFormFields(d={}){
+  return `
+    <div class="grid grid-cols-2 gap-3">
+      <div class="col-span-2"><label class="field-label">Doctor Name *</label><input id="fName" class="input" value="${esc(d.name||'')}" placeholder="Full name"></div>
+      <div><label class="field-label">Degree</label><input id="fDegree" class="input" value="${esc(d.degree||'')}" placeholder="MBBS, MD"></div>
+      <div><label class="field-label">Specialization</label><input id="fSpec" class="input" value="${esc(d.specialization||'')}" placeholder="Medicine"></div>
+      <div><label class="field-label">Registration No.</label><input id="fReg" class="input" value="${esc(d.registrationNumber||'')}"></div>
+      <div><label class="field-label">Consultation Fee (₹)</label><input id="fFee" type="number" min="0" class="input" value="${d.consultationFee||''}"></div>
+      <div class="col-span-2"><label class="field-label">Phone</label><input id="fPhone" class="input" value="${esc(d.phone||'')}"></div>
+      <div class="col-span-2"><label class="field-label">Chamber Location</label><input id="fLocation" class="input" value="${esc(d.location||'')}" placeholder="Room / floor (optional)"></div>
+      <div class="col-span-2"><label class="field-label">Description</label><textarea id="fDesc" class="input" rows="2">${esc(d.description||'')}</textarea></div>
+      <div class="col-span-2 flex items-center gap-2">
+        <input type="checkbox" id="fRegPublic" ${d.registrationPublic?'checked':''}>
+        <label for="fRegPublic" class="text-sm font-bold">Show registration number to patients</label>
+      </div>
+      <div class="col-span-2"><label class="field-label">Doctor Photo</label><input id="fImage" type="file" accept="image/*" class="input"></div>
+    </div>`;
+}
+
+function openAddDoctorModal(){
+  openModal(`
+    <div class="px-1">
+      <h3 class="font-extrabold text-lg mb-4">Add Doctor</h3>
+      ${addDoctorFormFields()}
+      <div class="h-px bg-[var(--line)] my-4"></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="col-span-2"><label class="field-label">Login Email *</label><input id="fEmail" type="email" class="input" placeholder="doctor@example.com"></div>
+        <div class="col-span-2"><label class="field-label">Temporary Password *</label><input id="fTempPass" class="input" placeholder="Min 6 characters"></div>
+      </div>
+      <button class="btn btn-primary btn-block mt-5" id="createDocBtn" onclick="createDoctor()">Create Doctor</button>
+    </div>`);
+}
+async function createDoctor(){
+  const name = $('#fName').value.trim(), email = $('#fEmail').value.trim(), pass = $('#fTempPass').value;
+  if(!name || !email || pass.length < 6){ toast('Doctor name, email and a password (min 6 chars) are required','error'); return; }
+  const btn = $('#createDocBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating...';
+  const imageFile = $('#fImage').files[0];
+  try{
+    // Use the secondary Firebase app so this sign-up does not replace the admin's own session.
+    const cred = await secondaryApp.auth().createUserWithEmailAndPassword(email, pass);
+    const newUid = cred.user.uid;
+    await secondaryApp.auth().signOut();
+
+    let imageUrl = '';
+    if(imageFile){
+      const ref = storage.ref(`doctors/${newUid}/profile.jpg`);
+      await ref.put(imageFile);
+      imageUrl = await ref.getDownloadURL();
+    }
+    const doctorData = {
+      name, degree: $('#fDegree').value.trim(), specialization: $('#fSpec').value.trim(),
+      registrationNumber: $('#fReg').value.trim(), registrationPublic: $('#fRegPublic').checked,
+      consultationFee: Number($('#fFee').value)||0, phone: $('#fPhone').value.trim(),
+      location: $('#fLocation').value.trim(), description: $('#fDesc').value.trim(),
+      imageUrl, isActive:true, createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+    };
+    await db.collection('doctors').doc(newUid).set(doctorData);
+    await db.collection('users').doc(newUid).set({role:'doctor', name, email, doctorId:newUid, createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()});
+    await db.collection('doctorSchedules').doc(newUid).set({weeklySchedule:{}, updatedAt: FieldValue.serverTimestamp()});
+
+    closeModal();
+    openModal(`
+      <div class="px-1 text-center py-2">
+        <div class="w-14 h-14 rounded-full bg-[var(--green-soft)] text-[var(--green)] flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-circle-check text-xl"></i></div>
+        <h3 class="font-extrabold text-lg mb-1">Doctor Created Successfully</h3>
+        <p class="text-sm text-[var(--ink-soft)] mb-4">Share these login credentials with Dr. ${esc(name)} securely.</p>
+        <div class="card p-3 text-left text-sm space-y-1 mb-4">
+          <div><b>Email:</b> ${esc(email)}</div>
+          <div><b>Temporary Password:</b> ${esc(pass)}</div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="closeModal()">Done</button>
+      </div>`, {dismissible:false});
+  }catch(err){
+    console.error(err);
+    let msg = friendlyFireError(err);
+    if(err.code==='auth/email-already-in-use') msg = 'This email is already registered.';
+    toast(msg, 'error');
+    btn.disabled = false; btn.innerHTML = 'Create Doctor';
+  }
+}
+
+function openEditDoctorModal(id){
+  const d = St.cache['doc_'+id]; if(!d) return;
+  openModal(`
+    <div class="px-1">
+      <h3 class="font-extrabold text-lg mb-4">Edit Doctor</h3>
+      ${addDoctorFormFields(d)}
+      <button class="btn btn-primary btn-block mt-5" id="saveDocBtn" onclick="saveEditDoctor('${id}')">Save Changes</button>
+      <button class="btn btn-ghost btn-block mt-1" data-email="${esc(d.email||'')}" onclick="resetDoctorPassword(this.dataset.email)"><i class="fa-solid fa-key"></i> Send Password Reset Email</button>
+    </div>`);
+}
+async function saveEditDoctor(id){
+  const btn = $('#saveDocBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving...';
+  try{
+    const imageFile = $('#fImage').files[0];
+    const patch = {
+      name: $('#fName').value.trim(), degree: $('#fDegree').value.trim(), specialization: $('#fSpec').value.trim(),
+      registrationNumber: $('#fReg').value.trim(), registrationPublic: $('#fRegPublic').checked,
+      consultationFee: Number($('#fFee').value)||0, phone: $('#fPhone').value.trim(),
+      location: $('#fLocation').value.trim(), description: $('#fDesc').value.trim(),
+      updatedAt: FieldValue.serverTimestamp()
+    };
+    if(imageFile){
+      const ref = storage.ref(`doctors/${id}/profile.jpg`);
+      await ref.put(imageFile);
+      patch.imageUrl = await ref.getDownloadURL();
+    }
+    await db.collection('doctors').doc(id).update(patch);
+    await db.collection('users').doc(id).update({name: patch.name, updatedAt: FieldValue.serverTimestamp()}).catch(()=>{});
+    closeModal();
+    toast('Doctor updated','success');
+  }catch(err){ toast(friendlyFireError(err),'error'); btn.disabled=false; btn.innerHTML='Save Changes'; }
+}
+async function resetDoctorPassword(email){
+  if(!email){ toast('No email on file for this doctor','error'); return; }
+  try{ await auth.sendPasswordResetEmail(email); toast('Password reset email sent to '+email,'success'); }
+  catch(err){ toast(friendlyFireError(err),'error'); }
+}
+/* ---------------- Admin: Patients ---------------- */
+VIEW_RENDERERS['admin-patients'] = function(){
+  shellStaff('admin', 'admin-patients', 'Patients', `
+    <div class="anim-in">
+      <input id="patientSearch" class="input mb-3" placeholder="Search by name or phone..." oninput="renderPatientList()">
+      <div id="patientListWrap">${skeletonRows(4)}</div>
+    </div>
+  `);
+  track(db.collection('users').where('role','==','user').orderBy('createdAt','desc').limit(300)
+    .onSnapshot(snap=>{
+      St.cache.__patients = snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderPatientList();
+    }, err=> $('#patientListWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+};
+function renderPatientList(){
+  const wrap = $('#patientListWrap'); if(!wrap) return;
+  let list = St.cache.__patients || [];
+  const q = ($('#patientSearch')?.value||'').trim().toLowerCase();
+  if(q) list = list.filter(p=>(p.name||'').toLowerCase().includes(q) || (p.phone||'').includes(q));
+  wrap.innerHTML = list.length ? list.map(p=>`
+    <div class="card p-4 flex items-center gap-3 mb-3">
+      <div class="avatar w-11 h-11 shrink-0">${initials(p.name)}</div>
+      <div class="flex-1 min-w-0"><div class="font-extrabold truncate">${esc(p.name)}</div><div class="text-xs text-[var(--ink-soft)]">${esc(p.phone)}</div></div>
+      <a href="tel:${esc(p.phone)}" class="btn btn-sm btn-outline"><i class="fa-solid fa-phone"></i></a>
+    </div>`).join('') : emptyState('fa-users','No patients found');
+}
+
+/* ---------------- Admin: Finance / Reports ---------------- */
+VIEW_RENDERERS['admin-finance'] = function(params={}){
+  const range = params.range || 'month';
+  shellStaff('admin', 'admin-finance', 'Finance & Reports', `
+    <div class="anim-in">
+      <div class="flex gap-2 overflow-x-auto scrollbar-none pb-2 mb-4">
+        ${[['today','Today'],['this_week','This Week'],['last_week','Last Week'],['month','This Month'],['last_month','Last Month'],['range','Custom Range']]
+          .map(([k,l])=>`<button class="chip ${range===k?'active':''}" onclick="navigate('admin-finance',{range:'${k}'})">${l}</button>`).join('')}
+      </div>
+      ${range==='range' ? `
+      <div class="card p-3 flex flex-wrap gap-2 items-end mb-4">
+        <div><label class="field-label">From</label><input type="date" id="afFrom" class="input"></div>
+        <div><label class="field-label">To</label><input type="date" id="afTo" class="input"></div>
+        <button class="btn btn-primary btn-sm" onclick="loadAdminFinance()">Apply</button>
+      </div>`:''}
+      <div id="adminFinSummary" class="mb-6">${skeletonRows(1)}</div>
+      <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide mb-2">Revenue &amp; Appointments by Doctor</div>
+      <div id="adminFinByDoctor" class="card p-0 overflow-x-auto mb-6">${skeletonRows(3)}</div>
+      <div class="font-extrabold text-sm text-[var(--ink-soft)] uppercase tracking-wide mb-2">Revenue by Day</div>
+      <div id="adminFinByDay" class="card p-0 overflow-x-auto">${skeletonRows(3)}</div>
+    </div>
+  `);
+  if(range==='range'){ $('#adminFinSummary').innerHTML = emptyState('fa-calendar','Pick a date range','Choose From and To dates, then tap Apply'); $('#adminFinByDoctor').innerHTML=''; $('#adminFinByDay').innerHTML=''; return; }
+  const today = todayIST();
+  let from,to;
+  if(range==='today'){ from=to=today; }
+  else if(range==='this_week'){ [from,to]=weekBounds(today); }
+  else if(range==='last_week'){ const [ws]=weekBounds(today); to=addDaysStr(ws,-1); from=addDaysStr(to,-6); }
+  else if(range==='month'){ [from,to]=monthBounds(today); }
+  else if(range==='last_month'){ const [ms]=monthBounds(today); to=addDaysStr(ms,-1); [from]=monthBounds(to); }
+  fetchAdminFinance(from,to);
+};
+function loadAdminFinance(){
+  const from=$('#afFrom').value, to=$('#afTo').value;
+  if(!from||!to||from>to){ toast('Select a valid date range','error'); return; }
+  fetchAdminFinance(from,to);
+}
+async function fetchAdminFinance(from,to){
+  $('#adminFinSummary').innerHTML = skeletonRows(1);
+  $('#adminFinByDoctor').innerHTML = skeletonRows(2);
+  $('#adminFinByDay').innerHTML = skeletonRows(2);
+  try{
+    const snap = await db.collection('appointments').where('appointmentDate','>=',from).where('appointmentDate','<=',to).get();
+    const list = snap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>!a.isDeleted);
+    const r = splitRevenue(list);
+    $('#adminFinSummary').innerHTML = `
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Total Appointments</div><div class="text-xl font-extrabold">${list.length}</div></div>
+        <div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Completed (Earned)</div><div class="text-xl font-extrabold text-[var(--green)]">${fmtMoney(r.earned)}</div></div>
+        <div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Confirmed (Expected)</div><div class="text-xl font-extrabold text-[var(--amber)]">${fmtMoney(r.expected)}</div></div>
+        <div class="stat-card"><div class="text-[11px] font-bold text-[var(--ink-soft)] mb-1">Total Revenue</div><div class="text-xl font-extrabold">${fmtMoney(r.total)}</div></div>
+      </div>`;
+    const byDoc = {};
+    list.filter(a=>['completed','confirmed'].includes(a.status)).forEach(a=>{
+      byDoc[a.doctorId] = byDoc[a.doctorId] || {name:a.doctorName, count:0, revenue:0};
+      byDoc[a.doctorId].count++; byDoc[a.doctorId].revenue += Number(a.consultationFee)||0;
+    });
+    const docRows = Object.values(byDoc).sort((a,b)=>b.revenue-a.revenue);
+    $('#adminFinByDoctor').innerHTML = docRows.length ? `
+      <table class="data-table"><thead><tr><th>Doctor</th><th>Appointments</th><th>Revenue</th></tr></thead><tbody>
+      ${docRows.map(r=>`<tr><td class="font-bold">Dr. ${esc(r.name)}</td><td>${r.count}</td><td class="font-bold">${fmtMoney(r.revenue)}</td></tr>`).join('')}
+      </tbody></table>` : emptyState('fa-chart-simple','No revenue records found');
+
+    const byDate = {};
+    list.filter(a=>['completed','confirmed'].includes(a.status)).forEach(a=>{
+      byDate[a.appointmentDate] = byDate[a.appointmentDate] || {count:0, revenue:0};
+      byDate[a.appointmentDate].count++; byDate[a.appointmentDate].revenue += Number(a.consultationFee)||0;
+    });
+    const dateRows = Object.keys(byDate).sort().reverse();
+    $('#adminFinByDay').innerHTML = dateRows.length ? `
+      <table class="data-table"><thead><tr><th>Date</th><th>Appointments</th><th>Revenue</th></tr></thead><tbody>
+      ${dateRows.map(d=>`<tr><td>${formatDateShort(d)}</td><td>${byDate[d].count}</td><td class="font-bold">${fmtMoney(byDate[d].revenue)}</td></tr>`).join('')}
+      </tbody></table>` : emptyState('fa-chart-simple','No revenue records found');
+  }catch(err){
+    $('#adminFinSummary').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err));
+    $('#adminFinByDoctor').innerHTML = ''; $('#adminFinByDay').innerHTML = '';
+  }
+}
+
+/* ---------------- Admin: Messages ---------------- */
+VIEW_RENDERERS['admin-messages'] = function(params={}){
+  const activeDoctorId = params.doctorId || null;
+  shellStaff('admin', 'admin-messages', 'Doctor Messages', `
+    <div class="anim-in grid lg:grid-cols-[280px_1fr] gap-4" style="min-height:60vh">
+      <div id="threadListWrap" class="space-y-2">${skeletonRows(4)}</div>
+      <div>
+        ${activeDoctorId ? `
+        <div class="flex flex-col" style="min-height:60vh">
+          <div id="adminChatWrap" class="flex-1 mb-3">${skeletonRows(3)}</div>
+          <div class="sticky bottom-0 bg-[var(--paper)] pt-2 flex gap-2">
+            <input id="adminChatInput" class="input flex-1" placeholder="Reply to doctor..." onkeydown="if(event.key==='Enter') sendAdminMessage('${activeDoctorId}')">
+            <button class="btn btn-primary" onclick="sendAdminMessage('${activeDoctorId}')"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>` : `<div class="card hidden lg:flex items-center justify-center" style="min-height:50vh">${emptyState('fa-comments','Select a conversation')}</div>`}
+      </div>
+    </div>
+  `);
+  track(db.collection('messages').orderBy('updatedAt','desc').limit(100).onSnapshot(snap=>{
+    const wrap = $('#threadListWrap'); if(!wrap) return;
+    const list = snap.docs.map(d=>({id:d.id,...d.data()}));
+    wrap.innerHTML = list.length ? list.map(m=>`
+      <div class="card p-3 flex items-center gap-3 cursor-pointer ${activeDoctorId===m.id?'border-[var(--teal)]':''}" onclick="navigate('admin-messages',{doctorId:'${m.id}'})">
+        <div class="avatar w-9 h-9 shrink-0 text-xs">${initials(m.doctorName)}</div>
+        <div class="flex-1 min-w-0"><div class="font-bold text-sm truncate">Dr. ${esc(m.doctorName||'')}</div><div class="text-xs text-[var(--ink-soft)] truncate">${esc(m.lastMessage||'')}</div></div>
+      </div>`).join('') : emptyState('fa-comments','No conversations yet');
+  }, err=> $('#threadListWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+
+  if(activeDoctorId){
+    track(db.collection('messages').doc(activeDoctorId).collection('thread').orderBy('createdAt','asc').limit(200)
+      .onSnapshot(snap=>{
+        const wrap = $('#adminChatWrap'); if(!wrap) return;
+        const list = snap.docs.map(d=>d.data());
+        wrap.innerHTML = list.length ? list.map(m=>chatBubble(m, m.sender==='admin')).join('') : emptyState('fa-comments','No messages yet');
+        wrap.scrollTop = wrap.scrollHeight;
+      }, err=> $('#adminChatWrap').innerHTML = emptyState('fa-triangle-exclamation', friendlyFireError(err))));
+  }
+};
+async function sendAdminMessage(doctorId){
+  const input = $('#adminChatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  try{
+    await db.collection('messages').doc(doctorId).collection('thread').add({sender:'admin', text, createdAt: FieldValue.serverTimestamp(), readByAdmin:true, readByDoctor:false});
+    await db.collection('messages').doc(doctorId).set({lastMessage:text, lastSender:'admin', updatedAt: FieldValue.serverTimestamp()}, {merge:true});
+  }catch(err){ toast(friendlyFireError(err),'error'); input.value = text; }
+}
+
+/* ---------------- Admin: Settings ---------------- */
+VIEW_RENDERERS['admin-settings'] = function(){
+  const c = St.clinicSettings || CLINIC_DEFAULT;
+  shellStaff('admin', 'admin-settings', 'Clinic Settings', `
+    <div class="anim-in max-w-md">
+      <div class="card p-4 space-y-3">
+        <div><label class="field-label">Clinic Name</label><input id="csName" class="input" value="${esc(c.clinicName)}"></div>
+        <div><label class="field-label">Clinic Phone</label><input id="csPhone" class="input" value="${esc(c.phone)}"></div>
+        <div><label class="field-label">Clinic Address</label><textarea id="csAddress" class="input" rows="2">${esc(c.address)}</textarea></div>
+        <div><label class="field-label">Clinic Email</label><input id="csEmail" class="input" value="${esc(c.email)}"></div>
+        <div><label class="field-label">Opening Information</label><textarea id="csOpening" class="input" rows="2">${esc(c.openingInfo)}</textarea></div>
+        <button class="btn btn-primary btn-block" onclick="saveClinicSettings()">Save Settings</button>
+      </div>
+    </div>
+  `);
+};
+async function saveClinicSettings(){
+  const patch = {
+    clinicName: $('#csName').value.trim(), phone: $('#csPhone').value.trim(), address: $('#csAddress').value.trim(),
+    email: $('#csEmail').value.trim(), openingInfo: $('#csOpening').value.trim(), updatedAt: FieldValue.serverTimestamp()
+  };
+  try{ await db.collection('clinicSettings').doc('main').set(patch, {merge:true}); St.clinicSettings = {...St.clinicSettings, ...patch}; toast('Settings saved','success'); }
+  catch(err){ toast(friendlyFireError(err),'error'); }
+}
+
+/* ---------------- boot ---------------- */
+// onAuthStateChanged (registered above) fires once automatically on load
+// with the resolved session (or null) and takes care of first render.
+</script>
+</body>
+</html>
