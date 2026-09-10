@@ -364,7 +364,6 @@ const St = {
   unsubs: [],           // active firestore listeners for current view
   cache: {},            // scratch cache keyed by id, for onclick lookups
   clinicSettings: CLINIC_DEFAULT,
-  confirmWindow: null,  // recaptcha confirmation result
 };
 function clearListeners(){ St.unsubs.forEach(u=>{ try{u();}catch(e){} }); St.unsubs = []; }
 function track(unsub){ St.unsubs.push(unsub); return unsub; }
@@ -494,8 +493,8 @@ auth.onAuthStateChanged(async (user)=>{
   try{
     const udoc = await db.collection('users').doc(user.uid).get();
     if(!udoc.exists){
-      // Signed into Firebase Auth but no Firestore profile yet.
-      if(user.phoneNumber){ renderCompletePatientProfile(user); return; }
+      // Signed in (anonymously, for a patient) but no Firestore profile yet.
+      if(user.isAnonymous){ closeModal(); renderCompletePatientProfile(); return; }
       // Staff user with no role doc — treat as an error state and sign out.
       await auth.signOut();
       toast('No profile found for this account. Contact the clinic admin.', 'error');
@@ -552,7 +551,7 @@ function renderRoot(){
     </div>
     <div class="flex-1 px-5 pb-10 -mt-1">
       <div class="max-w-sm mx-auto space-y-3 anim-in">
-        <button class="card w-full p-4 flex items-center gap-4 text-left shadow-sm" onclick="renderPatientAuth()">
+        <button class="card w-full p-4 flex items-center gap-4 text-left shadow-sm" onclick="startPatientFlow()">
           <div class="w-11 h-11 rounded-xl bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center text-lg"><i class="fa-solid fa-user"></i></div>
           <div class="flex-1">
             <div class="font-extrabold">Patient</div>
@@ -576,107 +575,75 @@ function renderRoot(){
   </div>`;
 }
 
-/* ---------- Patient (phone OTP) auth ---------- */
-function renderPatientAuth(){
-  St.view = 'auth-patient';
-  if(window.__recaptchaVerifier){ try{ window.__recaptchaVerifier.clear(); }catch(e){} window.__recaptchaVerifier = null; }
-  const app = $('#app');
-  app.innerHTML = `
-  <div class="min-h-screen flex flex-col px-6 py-8">
-    <button class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--gray-soft)]" onclick="renderRoot()"><i class="fa-solid fa-arrow-left"></i></button>
-    <div class="max-w-sm w-full mx-auto mt-6 anim-in flex-1">
-      <h2 class="text-xl font-extrabold mb-1">Patient Login</h2>
-      <p class="text-sm text-[var(--ink-soft)] mb-6">আপনার মোবাইল নম্বর দিন। প্রথমবার হলে নাম জিজ্ঞাসা করা হবে।</p>
-      <div id="phoneStep">
-        <label class="field-label">Mobile Number</label>
-        <div class="flex gap-2">
-          <div class="input w-20 text-center font-bold select-none">+91</div>
-          <input id="phoneInput" class="input flex-1" placeholder="98XXXXXXXX" inputmode="numeric" maxlength="10">
-        </div>
-        <button class="btn btn-primary btn-block mt-5" id="sendOtpBtn" onclick="App.sendOtp()">Send OTP</button>
-        <div id="recaptcha-container" class="mt-3"></div>
-      </div>
-    </div>
-  </div>`;
+/* ---------- Patient entry — no OTP / no password. A silent, free Firebase
+   Anonymous session is created per device so Firestore rules still scope
+   each patient's data to only them; the visible step is just phone + name. ---------- */
+function startPatientFlow(){
+  loadingOverlay('Just a moment...');
+  auth.signInAnonymously().catch(err=>{
+    closeModal();
+    console.error(err);
+    toast('Could not start. Please try again.', 'error');
+  });
+  // auth.onAuthStateChanged() picks up from here (shows the details form or, on a
+  // returning device, goes straight to the patient home screen).
 }
 
-App.sendOtp = async function(){
-  const raw = $('#phoneInput').value.trim();
-  if(!/^[6-9]\d{9}$/.test(raw)){ toast('Enter a valid 10-digit mobile number', 'error'); return; }
-  const phone = '+91' + raw;
-  const btn = $('#sendOtpBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Sending...';
-  try{
-    if(!window.__recaptchaVerifier){
-      window.__recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {size:'invisible'});
-    }
-    const result = await auth.signInWithPhoneNumber(phone, window.__recaptchaVerifier);
-    St.confirmWindow = result;
-    renderOtpStep(phone);
-  }catch(err){
-    console.error(err);
-    toast(err.message || 'Could not send OTP. Please try again.', 'error');
-    btn.disabled = false; btn.innerHTML = 'Send OTP';
-    try{ window.__recaptchaVerifier && window.__recaptchaVerifier.render().then(id=>grecaptcha && grecaptcha.reset(id)); }catch(e){}
-  }
-};
-
-function renderOtpStep(phone){
-  $('#phoneStep').outerHTML = `
-    <div id="phoneStep" class="anim-in">
-      <label class="field-label">OTP sent to ${esc(phone)}</label>
-      <input id="otpInput" class="input text-center tracking-[0.5em] font-extrabold text-lg" placeholder="······" inputmode="numeric" maxlength="6">
-      <button class="btn btn-primary btn-block mt-5" id="verifyOtpBtn" onclick="App.verifyOtp()">Verify &amp; Continue</button>
-      <button class="btn btn-ghost btn-block mt-1" onclick="renderPatientAuth()">Change number</button>
-    </div>`;
-  $('#otpInput').focus();
-}
-
-App.verifyOtp = async function(){
-  const code = $('#otpInput').value.trim();
-  if(code.length < 4){ toast('Enter the OTP you received', 'error'); return; }
-  const btn = $('#verifyOtpBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Verifying...';
-  try{
-    await St.confirmWindow.confirm(code);
-    // onAuthStateChanged takes over from here
-  }catch(err){
-    console.error(err);
-    toast('Incorrect OTP. Please try again.', 'error');
-    btn.disabled = false; btn.innerHTML = 'Verify &amp; Continue';
-  }
-};
-
-function renderCompletePatientProfile(user){
+function renderCompletePatientProfile(){
   St.view = 'auth-complete-profile';
   $('#app').innerHTML = `
   <div class="min-h-screen flex flex-col px-6 py-8">
-    <div class="max-w-sm w-full mx-auto mt-10 anim-in">
+    <button class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--gray-soft)]" onclick="App.cancelPatientFlow()"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="max-w-sm w-full mx-auto mt-6 anim-in flex-1">
       <div class="w-14 h-14 rounded-2xl bg-[var(--teal-soft)] text-[var(--teal-deep)] flex items-center justify-center mb-4"><i class="fa-solid fa-user-pen text-xl"></i></div>
-      <h2 class="text-xl font-extrabold mb-1">আপনার নাম দিন</h2>
-      <p class="text-sm text-[var(--ink-soft)] mb-6">${esc(user.phoneNumber)} নম্বরে আপনার অ্যাকাউন্ট তৈরি হচ্ছে।</p>
+      <h2 class="text-xl font-extrabold mb-1">আপনার তথ্য দিন</h2>
+      <p class="text-sm text-[var(--ink-soft)] mb-6">শুধু একবার — পরের বার এই ডিভাইস থেকে ঢুকলে আর জিজ্ঞাসা করা হবে না।</p>
+      <label class="field-label">Mobile Number</label>
+      <div class="flex gap-2 mb-4">
+        <div class="input w-20 text-center font-bold select-none">+91</div>
+        <input id="newUserPhone" class="input flex-1" placeholder="98XXXXXXXX" inputmode="numeric" maxlength="10">
+      </div>
       <label class="field-label">Full Name</label>
       <input id="newUserName" class="input" placeholder="আপনার পুরো নাম">
-      <button class="btn btn-primary btn-block mt-5" onclick="App.completePatientProfile()">Continue</button>
+      <button class="btn btn-primary btn-block mt-5" id="completeProfileBtn" onclick="App.completePatientProfile()">Continue</button>
     </div>
   </div>`;
 }
+App.cancelPatientFlow = async function(){ await auth.signOut(); };
 App.completePatientProfile = async function(){
+  const rawPhone = $('#newUserPhone').value.trim();
   const name = $('#newUserName').value.trim();
+  if(!/^[6-9]\d{9}$/.test(rawPhone)){ toast('Enter a valid 10-digit mobile number', 'error'); return; }
   if(!name){ toast('Please enter your name', 'error'); return; }
-  loadingOverlay('Creating your profile...');
+  const phone = '+91' + rawPhone;
+  const btn = $('#completeProfileBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Please wait...';
   try{
     await db.collection('users').doc(St.user.uid).set({
-      role:'user', name, phone: St.user.phoneNumber,
+      role:'user', name, phone,
       createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
     });
-    closeModal();
-    St.profile = {role:'user', name, phone:St.user.phoneNumber};
+    St.profile = {role:'user', name, phone};
     St.role = 'user';
     await loadClinicSettings();
     navigate('user-home');
-  }catch(err){ closeModal(); console.error(err); toast('Something went wrong. Please try again.', 'error'); }
+  }catch(err){
+    console.error(err);
+    toast(friendlyFireError(err), 'error');
+    btn.disabled = false; btn.innerHTML = 'Continue';
+  }
 };
+
+/* Lets a second family member using the same device/browser register under
+   their own number, without clearing browser data. */
+App.switchPatientAccount = function(){
+  confirmDialog({
+    icon:'fa-arrows-rotate', title:'অন্য নম্বর দিয়ে ব্যবহার করবেন?',
+    body:'এই ডিভাইসে এখন যে নাম্বার সেভ আছে, সেটা আর দেখাবে না। নতুন নাম্বার ও নাম দিতে হবে।',
+    confirmText:'Continue', onConfirm: async ()=>{ await auth.signOut(); await auth.signInAnonymously(); }
+  });
+};
+
 
 /* ---------- Staff (doctor/admin) email+password auth ---------- */
 function renderStaffAuth(){
@@ -797,6 +764,7 @@ const NAV = {
 const VIEW_RENDERERS = {};
 function navigate(view, params={}){
   clearListeners();
+  closeModal();
   St.view = view; St.viewParams = params;
   window.scrollTo(0,0);
   const fn = VIEW_RENDERERS[view];
@@ -1359,7 +1327,7 @@ VIEW_RENDERERS['user-profile'] = function(){
         <input id="profileName" class="input" value="${esc(St.profile.name)}">
         <button class="btn btn-primary btn-block mt-3" onclick="App.saveUserProfile()">Save Changes</button>
       </div>
-      <button class="btn btn-outline btn-block" onclick="App.logout()"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+      <button class="btn btn-outline btn-block text-xs" onclick="App.switchPatientAccount()"><i class="fa-solid fa-arrows-rotate"></i> এই ডিভাইসে অন্য নম্বর ব্যবহার করুন</button>
     </div>
   `, {title:'Profile'});
 };
