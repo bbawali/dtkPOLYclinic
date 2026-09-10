@@ -184,9 +184,22 @@ const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 
 const auth = firebase.auth();
 const db = firebase.firestore();
-db.settings({ ignoreUndefinedProperties: true });
-
-try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e) {}
+// Single settings() call: sets ignoreUndefinedProperties AND configures
+// multi-tab persistent cache in one shot. Calling settings() a second time
+// (which enablePersistence() used to do internally) caused the console
+// warning "You are overriding the original host." — merged here instead.
+try {
+  db.settings({
+    ignoreUndefinedProperties: true,
+    cache: firebase.firestore.persistentLocalCache({
+      tabManager: firebase.firestore.persistentMultipleTabManager()
+    })
+  });
+} catch (e) {
+  // Fallback for older SDK builds without the persistentLocalCache API.
+  db.settings({ ignoreUndefinedProperties: true });
+  try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e2) {}
+}
 
 const FieldValue = firebase.firestore.FieldValue;
 
