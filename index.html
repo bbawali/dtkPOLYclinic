@@ -162,7 +162,6 @@ table.data-table tr:hover td{background:#fafcfb}
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
 <script>
 /* ============================================================
    DUTTAPUKUR POLYCLINIC — single-file PWA
@@ -185,7 +184,6 @@ const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 
 const auth = firebase.auth();
 const db = firebase.firestore();
-const storage = firebase.storage();
 db.settings({ ignoreUndefinedProperties: true });
 
 try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e) {}
@@ -264,6 +262,40 @@ function generateSlots(startTime, endTime, duration){
   return out;
 }
 function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+
+// Doctor photos are stored inline in Firestore (no Cloud Storage / billing
+// account needed) as a compressed JPEG data URI. Resized + quality-stepped
+// down until it comfortably fits well inside Firestore's 1MB document cap.
+async function compressImageToDataUri(file, maxDim=480, quality=0.72){
+  const rawDataUrl = await new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>resolve(reader.result);
+    reader.onerror = ()=>reject(new Error('Could not read the image file.'));
+    reader.readAsDataURL(file);
+  });
+  const img = await new Promise((resolve, reject)=>{
+    const im = new Image();
+    im.onload = ()=>resolve(im);
+    im.onerror = ()=>reject(new Error('That file is not a readable image.'));
+    im.src = rawDataUrl;
+  });
+  let w = img.width, h = img.height;
+  if(w >= h){ if(w > maxDim){ h = Math.round(h * maxDim / w); w = maxDim; } }
+  else { if(h > maxDim){ w = Math.round(w * maxDim / h); h = maxDim; } }
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,w,h); // flatten transparency (PNG -> JPEG)
+  ctx.drawImage(img, 0, 0, w, h);
+  let q = quality, out = canvas.toDataURL('image/jpeg', q), tries = 0;
+  while(out.length > 700000 && tries < 6){
+    q = Math.max(0.25, q - 0.12);
+    out = canvas.toDataURL('image/jpeg', q);
+    tries++;
+  }
+  if(out.length > 950000) throw new Error('This photo is too large even after compression. Please choose a smaller or simpler image.');
+  return out;
+}
 
 /* ---------------- toast ---------------- */
 function toast(msg, type='default', ms=3200){
@@ -860,6 +892,8 @@ function friendlyFireError(err){
   if(code === 'permission-denied') return 'You are not allowed to do that.';
   if(code === 'failed-precondition' || (err && /index/i.test(err.message||''))) return 'The database is preparing an index for this query — please try again in a minute.';
   if(code === 'unavailable') return 'Connection issue. Check your internet and try again.';
+  // A plain (non-Firebase) Error we threw ourselves — e.g. image compression — carries its own clear message.
+  if(!code && err instanceof Error && err.message) return err.message;
   return 'Something went wrong. Please try again.';
 }
 
@@ -2067,7 +2101,7 @@ function addDoctorFormFields(d={}){
         <input type="checkbox" id="fRegPublic" ${d.registrationPublic?'checked':''}>
         <label for="fRegPublic" class="text-sm font-bold">Show registration number to patients</label>
       </div>
-      <div class="col-span-2"><label class="field-label">Doctor Photo</label><input id="fImage" type="file" accept="image/*" class="input"></div>
+      <div class="col-span-2"><label class="field-label">Doctor Photo</label><input id="fImage" type="file" accept="image/*" class="input"><div class="text-[11px] text-[var(--ink-soft)] mt-1">Photo is auto-resized and stored directly in the database — no separate file storage needed.</div></div>
     </div>`;
 }
 
@@ -2098,9 +2132,7 @@ async function createDoctor(){
 
     let imageUrl = '';
     if(imageFile){
-      const ref = storage.ref(`doctors/${newUid}/profile.jpg`);
-      await ref.put(imageFile);
-      imageUrl = await ref.getDownloadURL();
+      imageUrl = await compressImageToDataUri(imageFile);
     }
     const doctorData = {
       name, degree: $('#fDegree').value.trim(), specialization: $('#fSpec').value.trim(),
@@ -2156,9 +2188,7 @@ async function saveEditDoctor(id){
       updatedAt: FieldValue.serverTimestamp()
     };
     if(imageFile){
-      const ref = storage.ref(`doctors/${id}/profile.jpg`);
-      await ref.put(imageFile);
-      patch.imageUrl = await ref.getDownloadURL();
+      patch.imageUrl = await compressImageToDataUri(imageFile);
     }
     await db.collection('doctors').doc(id).update(patch);
     await db.collection('users').doc(id).update({name: patch.name, updatedAt: FieldValue.serverTimestamp()}).catch(()=>{});
