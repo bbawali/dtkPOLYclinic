@@ -898,9 +898,19 @@ Data.getDayAvailability = async function(doctorId, dateStr){
 };
 
 Data.getBookedTimes = async function(doctorId, dateStr){
-  const snap = await db.collection('appointments')
-    .where('doctorId','==',doctorId).where('appointmentDate','==',dateStr)
-    .where('status','in',['pending','confirmed']).get();
+  // IMPORTANT: query appointmentSlots (the non-sensitive lock docs), NOT
+  // appointments directly. Firestore security rules only let a patient
+  // read appointment docs where patientId == their own uid, and this query
+  // has no patientId filter — so it would (correctly) get rejected with
+  // "Missing or insufficient permissions" for any patient, since the rule
+  // can't be proven true for every matching doc in the result set.
+  // appointmentSlots holds no patient PII and is readable by any signed-in
+  // user, and it's kept in sync with appointments (created on booking,
+  // deleted on reject/cancel/soft-delete) — see Data.bookAppointment /
+  // Data.releaseSlot below — so it's a safe, accurate source for "is this
+  // slot taken".
+  const snap = await db.collection('appointmentSlots')
+    .where('doctorId','==',doctorId).where('appointmentDate','==',dateStr).get();
   return new Set(snap.docs.map(d=>d.data().appointmentTime));
 };
 
