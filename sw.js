@@ -4,7 +4,7 @@
 // through to the network — booking and data operations must always
 // hit the live server, never a cached response.
 
-const CACHE = 'dp-clinic-v3';
+const CACHE = 'dp-clinic-v5';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
