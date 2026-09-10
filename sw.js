@@ -37,7 +37,7 @@ self.addEventListener('fetch', (e) => {
 
   e.respondWith(
     caches.match(e.request).then((cached) => {
-      const network = fetch(e.request)
+      const networkFetch = fetch(e.request)
         .then((res) => {
           if (res && res.ok) {
             const copy = res.clone();
@@ -45,8 +45,20 @@ self.addEventListener('fetch', (e) => {
           }
           return res;
         })
-        .catch(() => cached);
-      return cached || network;
+        .catch(() => null);
+
+      if (cached) {
+        // Serve the cached copy immediately; refresh the cache in the
+        // background (don't block the response on it).
+        networkFetch;
+        return cached;
+      }
+      // Nothing cached yet (e.g. first load). Wait for the network, but
+      // NEVER resolve to undefined — that's what caused
+      // "Failed to convert value to 'Response'" and the network-error log.
+      // Response.error() is a valid Response object even when we truly
+      // have nothing to serve.
+      return networkFetch.then((res) => res || Response.error());
     })
   );
 });
