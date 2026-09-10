@@ -184,22 +184,17 @@ const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 
 const auth = firebase.auth();
 const db = firebase.firestore();
-// Single settings() call: sets ignoreUndefinedProperties AND configures
-// multi-tab persistent cache in one shot. Calling settings() a second time
-// (which enablePersistence() used to do internally) caused the console
-// warning "You are overriding the original host." — merged here instead.
-try {
-  db.settings({
-    ignoreUndefinedProperties: true,
-    cache: firebase.firestore.persistentLocalCache({
-      tabManager: firebase.firestore.persistentMultipleTabManager()
-    })
-  });
-} catch (e) {
-  // Fallback for older SDK builds without the persistentLocalCache API.
-  db.settings({ ignoreUndefinedProperties: true });
-  try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e2) {}
-}
+// IMPORTANT ORDER: call enablePersistence() BEFORE settings(). enablePersistence()
+// internally calls settings() once to configure its cache/host. If our own
+// settings() call had already run first, enablePersistence()'s internal call would
+// silently override it, triggering "You are overriding the original host."
+// Doing it in this order — then adding merge:true on our own call — avoids that.
+try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e) {}
+db.settings({ ignoreUndefinedProperties: true, merge: true });
+// Note: the compat SDK still logs a one-time deprecation notice for multi-tab
+// persistence ("...will be deprecated, use FirestoreSettings.cache instead").
+// That notice only applies to the newer modular SDK's cache API and is
+// harmless here — it's expected/unavoidable while using firebase-compat.
 
 const FieldValue = firebase.firestore.FieldValue;
 
