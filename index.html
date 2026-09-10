@@ -184,17 +184,20 @@ const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 
 const auth = firebase.auth();
 const db = firebase.firestore();
-// IMPORTANT ORDER: call enablePersistence() BEFORE settings(). enablePersistence()
-// internally calls settings() once to configure its cache/host. If our own
-// settings() call had already run first, enablePersistence()'s internal call would
-// silently override it, triggering "You are overriding the original host."
-// Doing it in this order — then adding merge:true on our own call — avoids that.
-try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e) {}
+// settings() MUST come before enablePersistence(). enablePersistence() marks
+// the Firestore client as "started" — calling settings() after that throws
+// a fatal "Firestore has already been started" error. So settings() has to
+// go first, even though enablePersistence()'s own internal settings() call
+// will then log a harmless "You are overriding the original host." warning.
+// That specific warning cannot be suppressed from here in the compat SDK —
+// it's benign console noise, not a functional problem. merge:true is kept
+// as a safe no-op in case a future SDK version changes this behavior.
 db.settings({ ignoreUndefinedProperties: true, merge: true });
-// Note: the compat SDK still logs a one-time deprecation notice for multi-tab
+try { db.enablePersistence({ synchronizeTabs: true }).catch(()=>{}); } catch(e) {}
+// Note: the compat SDK also logs a one-time deprecation notice for multi-tab
 // persistence ("...will be deprecated, use FirestoreSettings.cache instead").
-// That notice only applies to the newer modular SDK's cache API and is
-// harmless here — it's expected/unavoidable while using firebase-compat.
+// That refers to the newer modular SDK's cache API and is likewise expected/
+// unavoidable while this project uses firebase-compat. Safe to ignore.
 
 const FieldValue = firebase.firestore.FieldValue;
 
