@@ -369,65 +369,70 @@ function clearListeners(){ St.unsubs.forEach(u=>{ try{u();}catch(e){} }); St.uns
 function track(unsub){ St.unsubs.push(unsub); return unsub; }
 
 /* ============================================================
-   PWA: manifest + service worker + install prompt — all inline,
-   no separate files, so the whole app ships as one HTML file.
+   PWA: manifest + service worker + install prompt.
+
+   IMPORTANT: real installability needs a real service-worker FILE —
+   the Service Worker spec only allows registering http(s) script URLs,
+   not blob: URLs, so a blob-registered worker silently fails in every
+   browser and the "Install" prompt never fires. That's why this build
+   ships as TWO files: this HTML file + a tiny sw.js next to it. The
+   manifest itself is still generated inline (that part is fine as a
+   Blob URL — only the service worker script has the http(s)-only rule).
    ============================================================ */
 const APP_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#0f6e64"/><path d="M256 120c-16 0-28 13-28 29v79h-79c-16 0-29 12-29 28s13 29 29 29h79v79c0 16 12 28 28 28s28-12 28-28v-79h79c16 0 29-13 29-29s-13-28-29-28h-79v-79c0-16-12-29-28-29z" fill="#fff"/></svg>`;
-function svgToDataUri(svg){ return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg))); }
-(function setupPWAChrome(){
-  const iconUri = svgToDataUri(APP_ICON_SVG);
-  $('#appleTouchIcon').setAttribute('href', iconUri);
+function svgToPngDataUri(svgMarkup, size){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, size, size);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = reject;
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgMarkup)));
+  });
+}
+async function setupPWAChrome(){
+  const icon192 = await svgToPngDataUri(APP_ICON_SVG, 192).catch(()=>null);
+  const icon512 = await svgToPngDataUri(APP_ICON_SVG, 512).catch(()=>null);
+  if(icon512) $('#appleTouchIcon').setAttribute('href', icon512);
+
+  // Resolve against the real page location so this works whether the app
+  // is hosted at a domain root or in a sub-path (e.g. GitHub Pages
+  // "username.github.io/repo-name/").
+  const baseUrl = new URL('.', location.href).href;
+
   const manifest = {
     name: "Duttapukur Polyclinic",
     short_name: "Duttapukur Polyclinic",
     description: "Book your doctor consultation at Duttapukur Polyclinic — patients, doctors and clinic staff, all in one app.",
-    start_url: ".",
-    scope: ".",
+    id: baseUrl,
+    start_url: baseUrl,
+    scope: baseUrl,
     display: "standalone",
     background_color: "#f7f9f8",
     theme_color: "#0f6e64",
     orientation: "portrait-primary",
     icons: [
-      {src: iconUri, sizes: "192x192", type: "image/svg+xml", purpose: "any"},
-      {src: iconUri, sizes: "512x512", type: "image/svg+xml", purpose: "any"},
-      {src: iconUri, sizes: "512x512", type: "image/svg+xml", purpose: "maskable"}
-    ]
+      icon192 && {src: icon192, sizes: "192x192", type: "image/png", purpose: "any"},
+      icon512 && {src: icon512, sizes: "512x512", type: "image/png", purpose: "any"},
+      icon512 && {src: icon512, sizes: "512x512", type: "image/png", purpose: "maskable"}
+    ].filter(Boolean)
   };
   const manifestBlob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
   $('#manifestLink').setAttribute('href', URL.createObjectURL(manifestBlob));
 
-  // Inline service worker (registered from a Blob URL) — caches the app shell
-  // (this single HTML document) for offline loading. Firestore/Auth network
-  // calls are left untouched so booking/data operations always need a live
-  // connection, per the app's data-consistency requirements.
-  const swSource = `
-    const CACHE = 'dp-clinic-v1';
-    self.addEventListener('install', e => { self.skipWaiting(); });
-    self.addEventListener('activate', e => { self.clients.claim(); });
-    self.addEventListener('fetch', e => {
-      if (e.request.method !== 'GET') return;
-      const url = e.request.url;
-      if (url.includes('firestore.googleapis.com') || url.includes('identitytoolkit') ||
-          url.includes('googleapis.com') || url.includes('firebaseapp.com')) return;
-      e.respondWith(
-        caches.match(e.request).then(cached => {
-          const fetchPromise = fetch(e.request).then(res => {
-            if (res && res.ok) { caches.open(CACHE).then(c => c.put(e.request, res.clone())); }
-            return res;
-          }).catch(()=> cached);
-          return cached || fetchPromise;
-        })
-      );
-    });
-  `;
+  // Real, same-origin service worker file (see note above on why this
+  // can't be a Blob URL). sw.js must sit in the same folder as this page.
   if('serviceWorker' in navigator){
-    try{
-      const swBlob = new Blob([swSource], {type:'application/javascript'});
-      const swUrl = URL.createObjectURL(swBlob);
-      navigator.serviceWorker.register(swUrl).catch(()=>{});
-    }catch(e){}
+    navigator.serviceWorker.register('./sw.js', {scope: baseUrl}).catch(err=>{
+      console.warn('Service worker registration failed (app still works, just without offline caching / install prompt):', err);
+    });
   }
-})();
+}
+setupPWAChrome();
 
 let deferredInstallPrompt = null;
 window.addEventListener('beforeinstallprompt', (e)=>{
